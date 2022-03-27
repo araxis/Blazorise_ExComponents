@@ -1,0 +1,44 @@
+﻿<Card  Width="TileWidth" Flex="Flex" Margin="TileMargin" Border="Border.Is0" >
+    <CardHeader Background="HeaderBackground??Color" TextAlignment="TextAlignment.Center">
+        @Title
+    </CardHeader>
+    <CardBody Background="BodyBackground??Color" Padding="Blazorise.Padding.Is1">
+
+        <CardText TextAlignment="TextAlignment.Center"> @Value</CardText>
+
+
+    </CardBody>
+
+</Card>
+
+@code {
+
+
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public IFluentFlex Flex { get; set; }
+
+    [Parameter]
+    public IFluentSpacing TileMargin { get; set; }
+
+    [Parameter]
+    public string Value { get; set; } = "";
+
+    [Parameter]
+    public IFluentSizing TileWidth { get; set; } = Width.Auto;
+
+    [Parameter]
+    public Background? HeaderBackground { get; set; } = null;
+
+    [Parameter]
+    public Background? BodyBackground { get; set; } = null;
+
+    [Parameter]
+    public Background Color { get; set; } = Background.Success;
+
+
+
+   }
+    

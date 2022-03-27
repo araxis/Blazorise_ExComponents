@@ -1,0 +1,49 @@
+﻿<Button Clicked="ToggleState" TextAlignment="TextAlignment.Center" Outline="Outline" Color="ButtonColor">
+    @if (Toggled)
+    {
+
+        <Span TextColor="ToggledColor" >@ToggledText</Span>
+       
+    }
+    else
+    {
+        <Span TextColor="Color" >@Text</Span>
+    }
+</Button>
+
+@code {
+
+    [Parameter]
+    public bool Toggled { get; set; }
+
+    [Parameter]
+    public string Text { get; set; } = "";
+
+    [Parameter]
+    public string ToggledText { get; set; } = "";
+
+    [Parameter]
+    public TextColor ToggledColor { get; set; } = TextColor.Danger;
+
+    [Parameter]
+    public TextColor Color { get; set; } = TextColor.Dark;
+
+    [Parameter]
+    public bool Outline { get; set; } = true;
+
+    [Parameter]
+    public Color ButtonColor { get; set; } = Blazorise.Color.Primary;
+
+
+    [Parameter]
+    public EventCallback<bool> ToggledChanged { get; set; }
+
+
+    private async Task ToggleState()
+    {
+        Toggled = !Toggled;
+        await ToggledChanged.InvokeAsync(Toggled);
+
+    }
+
+}

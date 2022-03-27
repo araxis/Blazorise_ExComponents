@@ -1,0 +1,73 @@
+﻿
+    <Collapse  Visible="@Expand">
+
+        <CollapseHeader Background="Background.Transparent"  >
+            <Heading Flex="Flex.JustifyContent.Between.AlignItems.Center" @onclick="OnToggleChanged"
+                      Size="HeadingSize.Is6">
+                <Div  Margin="Blazorise.Margin.Is1"></Div>
+                <Div Flex="Flex.Grow.Is1" TextAlignment="TextAlignment.Center">
+                    
+                    @if (!Expand)
+                    {
+                       
+                            @CloseHeaderContent
+                      
+                           
+                    
+                    }
+                    else
+                    {
+                        @Title
+                    }
+                </Div>
+                <Div  Margin="Blazorise.Margin.Is1">
+                    @if (Expand)
+                    {
+                        <Icon   Name="IconName.AngleUp"/>
+                    }
+                    else
+                    {
+                        <Icon Name="IconName.AngleDown"/>
+                    }
+                </Div>
+             
+            </Heading>
+        </CollapseHeader>
+        <CollapseBody  >
+            @ChildContent
+        </CollapseBody>
+    </Collapse>
+
+
+
+
+@code {
+    [Parameter]
+    public bool Expand { get; set; } = true;
+
+    [Parameter]
+    public EventCallback<bool> ExpandChanged { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment CloseHeaderContent { get; set; }
+
+    [Parameter]
+    public IFluentSpacing Margin { get; set; } = Blazorise.Margin.Is1.FromTop;
+
+    //[Parameter]
+    //public RenderFragment OpenHeaderContent { get; set; }
+
+
+    private async Task OnToggleChanged()
+    {
+        Expand = !Expand;
+        await ExpandChanged.InvokeAsync(Expand);
+    }
+
+}

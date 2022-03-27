@@ -1,0 +1,31 @@
+﻿
+    <Div Border="Border.Is1.Primary.OnBottom" TextAlignment="TitleAlignment" Style="line-height: 0.1em;">
+        <Span Style=@($"color:{TitleColor.Name}")
+              Background=@(String.IsNullOrWhiteSpace(Title)?Background.Transparent:TitleBackground)
+              Padding="Padding.Is2.FromStart.Is2.FromEnd.Is1.FromTop.Is1.FromBottom">
+            @Title
+        </Span>
+    </Div>
+
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public TextAlignment TitleAlignment { get; set; } = TextAlignment.Center;
+
+    [Parameter]
+    public TextColor TitleColor { get; set; } = "#e6e6e6";
+
+
+    [Parameter]
+    public Background TitleBackground { get; set; } = Background.White;
+
+    [Parameter]
+    public TextColor LineColor { get; set; } = TextColor.Default;
+
+   
+
+}

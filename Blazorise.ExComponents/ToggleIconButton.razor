@@ -1,0 +1,49 @@
+﻿<Button  Clicked="ToggleState"  Outline="Outline" Color="ButtonColor">
+
+    @if (Value)
+    {
+        <Icon TextColor="ToggledColor" Name="@ToggleIcon"></Icon>
+    }
+    else
+    {
+        <Icon TextColor="Color" Name="@Icon"></Icon>
+    }
+
+</Button>
+
+@code {
+
+    [Parameter]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public IconName Icon { get; set; } = IconName.Add;
+
+    [Parameter]
+    public IconName ToggleIcon { get; set; } = IconName.Delete;
+
+    [Parameter]
+    public TextColor ToggledColor { get; set; } = TextColor.Danger;
+
+    [Parameter]
+    public TextColor Color { get; set; } = TextColor.Dark;
+
+    [Parameter]
+    public bool Outline { get; set; } = true;
+
+    [Parameter]
+    public Color ButtonColor { get; set; } = Blazorise.Color.Link;
+
+
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
+
+    private async Task ToggleState()
+    {
+        Value = !Value;
+        await ValueChanged.InvokeAsync(Value);
+
+    }
+
+}
