@@ -1,5 +1,5 @@
 ﻿<Button Clicked="ToggleState" TextAlignment="TextAlignment.Center" Outline="Outline" Color="ButtonColor">
-    @if (Toggled)
+    @if (Value)
     {
 
         <Span TextColor="ToggledColor" >@ToggledText</Span>
@@ -14,7 +14,7 @@
 @code {
 
     [Parameter]
-    public bool Toggled { get; set; }
+    public bool Value { get; set; }
 
     [Parameter]
     public string Text { get; set; } = "";
@@ -23,10 +23,10 @@
     public string ToggledText { get; set; } = "";
 
     [Parameter]
-    public TextColor ToggledColor { get; set; } = TextColor.Danger;
+    public TextColor ToggledColor { get; set; } = TextColor.Default;
 
     [Parameter]
-    public TextColor Color { get; set; } = TextColor.Dark;
+    public TextColor Color { get; set; } = TextColor.Default;
 
     [Parameter]
     public bool Outline { get; set; } = true;
@@ -36,13 +36,13 @@
 
 
     [Parameter]
-    public EventCallback<bool> ToggledChanged { get; set; }
+    public EventCallback<bool> ValueChanged { get; set; }
 
 
     private async Task ToggleState()
     {
-        Toggled = !Toggled;
-        await ToggledChanged.InvokeAsync(Toggled);
+        Value = !Value;
+        await ValueChanged.InvokeAsync(Value);
 
     }
 

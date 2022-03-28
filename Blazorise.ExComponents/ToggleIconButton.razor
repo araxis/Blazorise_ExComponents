@@ -2,7 +2,7 @@
 
     @if (Value)
     {
-        <Icon TextColor="ToggledColor" Name="@ToggleIcon"></Icon>
+        <Icon TextColor="ToggledColor" Name="@ToggledIcon"></Icon>
     }
     else
     {
@@ -20,13 +20,13 @@
     public IconName Icon { get; set; } = IconName.Add;
 
     [Parameter]
-    public IconName ToggleIcon { get; set; } = IconName.Delete;
+    public IconName ToggledIcon { get; set; } = IconName.Delete;
 
     [Parameter]
-    public TextColor ToggledColor { get; set; } = TextColor.Danger;
+    public TextColor ToggledColor { get; set; } = TextColor.Default;
 
     [Parameter]
-    public TextColor Color { get; set; } = TextColor.Dark;
+    public TextColor Color { get; set; } = TextColor.Default;
 
     [Parameter]
     public bool Outline { get; set; } = true;

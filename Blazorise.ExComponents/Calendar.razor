@@ -11,19 +11,20 @@
         <Div>
             <span class="month-name">@Month</span>
             <br>
-            <span class="year">@_innerDate.Year</span>
+            <span class="year">@_date.Year</span>
         </Div>
         <Span  @onclick="Next" Style="cursor: pointer"  TextAlignment="TextAlignment.Center" Padding="Padding.Is3">&#10095;</Span>
     </CardHeader>
     <CardBody Padding="Padding.Is0">
         <div class="grid-container">
+            <span class="weekdays2">Su</span>
             <span class="weekdays2">Mo</span>
             <span class="weekdays2">Tu</span>
             <span class="weekdays2">We</span>
             <span class="weekdays2">Th</span>
             <span class="weekdays2">Fr</span>
             <span class="weekdays2">Sa</span>
-            <span class="weekdays2">Su</span>
+
 
             @foreach (var item in GetMonthDates)
             {
@@ -48,37 +49,38 @@
 @code {
 
 
-    private DateTime _innerDate = DateTime.Now;
+    private DateTime _selectedDate=DateTime.MinValue;
     private DateTime _date = DateTime.Now;
+    private DateItemConfig _defaultDateItemConfig = new(Border.Is0,Padding.Is2, TextColor.Default, "#eee");
     
     [Parameter]
     public DateTime Date
     {
         get => _date;
-        set
-        {
-            _date = value;
-            _innerDate = value;
-
-        }
+        set => _date = value;
     }
 
     [Parameter]
     public bool RenderToday { get; set; } = true;
 
     [Parameter]
+    public bool RenderSelected { get; set; } = true;
+
+    [Parameter]
     public string HeaderBackGround { get; set; } = "#1abc9c";
 
-    string Month => _innerDate.ToString("MMM");
+    string Month => _date.ToString("MMM");
 
     IEnumerable<DateTime> GetMonthDates
     {
         get
         {
             var ret = new List<DateTime>();
-            var days =DateTime.DaysInMonth(_innerDate.Year, _innerDate.Month);
-            var date = new DateTime(_innerDate.Year, _innerDate.Month, 1);
-            for (var i = 0; i < days; i++)
+            var days =DateTime.DaysInMonth(_date.Year, _date.Month);
+            var date = new DateTime(_date.Year, _date.Month, 1);
+            var weekDay = date.DayOfWeek;
+            date = date.AddDays(-(int) weekDay);
+            for (var i = 0; i < days+(int)weekDay; i++)
             {
 
                 ret.Add(date.AddDays(i));
@@ -87,17 +89,14 @@
         }
     }
 
+    [Parameter]
     public Func<DateTime,DateItemConfig, DateItemConfig>? GetItemConfigMethod { get; set; } = null;
 
-    private DateItemConfig _defaultDateItemConfig = new(Border.Is0,Padding.Is2, TextColor.Default, "#eee");
+
 
     private DateItemConfig GetItemConfig(DateTime date)
     {
-
-        if (GetItemConfigMethod is not null) return GetItemConfigMethod(date,_defaultDateItemConfig);
-      
-
-        if (date == _innerDate)
+        if (date == _selectedDate && RenderSelected)
         {
             return _defaultDateItemConfig with{TextColor = TextColor.White,BackgroundColor = "#bc901a"};
         }
@@ -106,7 +105,8 @@
             return _defaultDateItemConfig with{TextColor = TextColor.White,BackgroundColor = "#1abc9c"};
         }
 
-        return _defaultDateItemConfig;
+        return GetItemConfigMethod is not null ?
+            GetItemConfigMethod(date,_defaultDateItemConfig) : _defaultDateItemConfig;
     }
 
 
@@ -115,19 +115,19 @@
 
     private void Prev()
     {
-        _innerDate = _innerDate.AddMonths(-1);
+        _date = _date.AddMonths(-1);
    
     }
 
     private void Next()
     {
-        _innerDate = _innerDate.AddMonths(1);
+        _date = _date.AddMonths(1);
        
     }
 
     private async Task DateSelected(DateTime item)
     {
-        _innerDate = item;
+        _selectedDate = item;
         await DateChanged.InvokeAsync(item);
     }
 
