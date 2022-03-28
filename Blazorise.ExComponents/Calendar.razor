@@ -42,7 +42,41 @@
     </CardBody>
 </Card>
 
+<style>
+    
+    .grid-container {
+        display: grid;
+        text-align: center;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        background: #eee;
+        padding-bottom: 10px;
+        /*    column-gap: 5px;
+    row-gap: 5px;*/
+    }
 
+
+    .weekdays2 {
+        color: #666;
+        text-align: center;
+        background-color: #ddd;
+        text-transform: uppercase;
+        padding: 10px;
+    }
+
+
+    .month-name {
+        color: white;
+        font-size: 20px;
+        /*    text-transform: uppercase;*/
+        letter-spacing: 3px;
+    }
+    .year {
+        color: white;
+        font-size: 20px;
+        /*    text-transform: uppercase;*/
+        letter-spacing: 3px;
+    }
+</style>
 
 
 
@@ -51,7 +85,7 @@
 
     private DateTime _selectedDate=DateTime.MinValue;
     private DateTime _date = DateTime.Now;
-    private DateItemConfig _defaultDateItemConfig = new(Border.Is0,Padding.Is2, TextColor.Default, "#eee");
+    private readonly DateItemConfig _defaultDateItemConfig = new(Border.Is0,Padding.Is2, TextColor.Default, "#eee");
     
     [Parameter]
     public DateTime Date

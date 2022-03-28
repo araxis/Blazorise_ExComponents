@@ -5,11 +5,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>Arax.Blazorise.Extra</PackageId>
-    <Version>$(VersionPrefix)1.0.0</Version>
+    <Version>$(VersionPrefix)1.0.1</Version>
     <Authors>Meisam alifallahi</Authors>
     <Copyright>Copyright Meisam alifallahi</Copyright>
     <Product>Blazorise Extra Components</Product>
-    <Description>Extra Blazorise Components</Description>
+    <Description>Extra Blazorise Components.
+Includes ExDivider,ExCollapse,Calendar,ToggleIconButton, etc.</Description>
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>Blazorise;Blazor;arax;</PackageTags>
     <RepositoryUrl>https://github.com/araxis/Blazorise_ExComponents</RepositoryUrl>
