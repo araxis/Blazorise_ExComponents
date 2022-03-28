@@ -24,4 +24,4 @@ Or via the .NET Core command line interface:
 ```
 dotnet add package Arax.Blazorise.Extra
 ```
-![1](https://user-images.githubusercontent.com/1418779/160439702-f07c567c-770a-49b4-9e52-a70e927ebb1b.png)
+![1](https://user-images.githubusercontent.com/1418779/160441090-76577fb6-9fda-4818-af93-f58f3996cea6.png)
