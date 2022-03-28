@@ -1,16 +1,27 @@
-﻿<Card  Width="TileWidth" Flex="Flex" Margin="TileMargin" Border="Border.Is0" >
-    <CardHeader Background="HeaderBackground??Color" TextAlignment="TextAlignment.Center">
-        @Title
-    </CardHeader>
-    <CardBody Background="BodyBackground??Color" Padding="Blazorise.Padding.Is1">
+﻿<Div Flex="Flex" Margin="TileMargin">
+    <Card Width="TileWidth"  Border="Border.Is0">
+        @if (ShowSeparator)
+        {
+            <CardHeader TextWeight="TextWeight.Bold" TextColor="TitleColor" Background="HeaderBackground ?? Color" TextAlignment="TextAlignment.Center">
+                @Title
+            </CardHeader>
+        }
+        else
+        {
+            <CardHeader TextColor="TitleColor" Border="Border.Is0" Background="HeaderBackground ?? Color" TextAlignment="TextAlignment.Center">
+                @Title
+            </CardHeader>
+        }
 
-        <CardText TextAlignment="TextAlignment.Center"> @Value</CardText>
+        <CardBody TextColor="ValueColor" Background="BodyBackground ?? Color" Padding="Padding.Is1">
+
+            <CardText TextAlignment="TextAlignment.Center"> @Value</CardText>
 
 
-    </CardBody>
+        </CardBody>
 
-</Card>
-
+    </Card>
+</Div>
 @code {
 
 
@@ -18,16 +29,22 @@
     public string Title { get; set; } = "";
 
     [Parameter]
-    public IFluentFlex Flex { get; set; }
+    public IFluentFlex Flex { get; set; } = Blazorise.Flex.Grow.Is1;
 
     [Parameter]
-    public IFluentSpacing TileMargin { get; set; }
+    public IFluentSpacing TileMargin { get; set; } = Margin.Is0;
 
     [Parameter]
     public string Value { get; set; } = "";
 
     [Parameter]
     public IFluentSizing TileWidth { get; set; } = Width.Auto;
+
+    [Parameter]
+    public TextColor TitleColor { get; set; } = TextColor.Dark;
+
+    [Parameter]
+    public TextColor ValueColor { get; set; } = TextColor.White;
 
     [Parameter]
     public Background? HeaderBackground { get; set; } = null;
@@ -38,7 +55,9 @@
     [Parameter]
     public Background Color { get; set; } = Background.Success;
 
+    [Parameter]
+    public bool ShowSeparator { get; set; } = true;
 
 
-   }
-    
+}
+

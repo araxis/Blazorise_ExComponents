@@ -1,0 +1,135 @@
+﻿@using Microsoft.JSInterop
+
+<Card>
+
+    <CardHeader Padding="Padding.Is2"
+                Flex="Flex.AlignItems.Center.JustifyContent.Between.NoWrap"
+                TextAlignment="TextAlignment.Center"
+                Style=@($"background-color:{HeaderBackGround}")>
+        <Span @onclick="Prev" Style="cursor: pointer" TextAlignment="TextAlignment.Center" Padding="Padding.Is3">&#10094;</Span>
+
+        <Div>
+            <span class="month-name">@Month</span>
+            <br>
+            <span class="year">@_innerDate.Year</span>
+        </Div>
+        <Span  @onclick="Next" Style="cursor: pointer"  TextAlignment="TextAlignment.Center" Padding="Padding.Is3">&#10095;</Span>
+    </CardHeader>
+    <CardBody Padding="Padding.Is0">
+        <div class="grid-container">
+            <span class="weekdays2">Mo</span>
+            <span class="weekdays2">Tu</span>
+            <span class="weekdays2">We</span>
+            <span class="weekdays2">Th</span>
+            <span class="weekdays2">Fr</span>
+            <span class="weekdays2">Sa</span>
+            <span class="weekdays2">Su</span>
+
+            @foreach (var item in GetMonthDates)
+            {
+                var config = GetItemConfig(item);
+                <Div Margin="Margin.Is1" Padding="Padding.Is1" TextAlignment="TextAlignment.Center">
+                    <Span Border="@config.Border" @onclick="_ => DateSelected(item)"
+                          Padding="@config.Padding"
+                          TextColor="@config.TextColor"
+                          Style=@($"background-color:{config.BackgroundColor};cursor:pointer")>
+                        @item.Day
+                    </Span>
+                </Div>
+            }
+        </div>
+    </CardBody>
+</Card>
+
+
+
+
+
+@code {
+
+
+    private DateTime _innerDate = DateTime.Now;
+    private DateTime _date = DateTime.Now;
+    
+    [Parameter]
+    public DateTime Date
+    {
+        get => _date;
+        set
+        {
+            _date = value;
+            _innerDate = value;
+
+        }
+    }
+
+    [Parameter]
+    public bool RenderToday { get; set; } = true;
+
+    [Parameter]
+    public string HeaderBackGround { get; set; } = "#1abc9c";
+
+    string Month => _innerDate.ToString("MMM");
+
+    IEnumerable<DateTime> GetMonthDates
+    {
+        get
+        {
+            var ret = new List<DateTime>();
+            var days =DateTime.DaysInMonth(_innerDate.Year, _innerDate.Month);
+            var date = new DateTime(_innerDate.Year, _innerDate.Month, 1);
+            for (var i = 0; i < days; i++)
+            {
+
+                ret.Add(date.AddDays(i));
+            }
+            return ret;
+        }
+    }
+
+    public Func<DateTime,DateItemConfig, DateItemConfig>? GetItemConfigMethod { get; set; } = null;
+
+    private DateItemConfig _defaultDateItemConfig = new(Border.Is0,Padding.Is2, TextColor.Default, "#eee");
+
+    private DateItemConfig GetItemConfig(DateTime date)
+    {
+
+        if (GetItemConfigMethod is not null) return GetItemConfigMethod(date,_defaultDateItemConfig);
+      
+
+        if (date == _innerDate)
+        {
+            return _defaultDateItemConfig with{TextColor = TextColor.White,BackgroundColor = "#bc901a"};
+        }
+        if (RenderToday && date.IsToday())
+        {
+            return _defaultDateItemConfig with{TextColor = TextColor.White,BackgroundColor = "#1abc9c"};
+        }
+
+        return _defaultDateItemConfig;
+    }
+
+
+    [Parameter]
+    public EventCallback<DateTime> DateChanged { get; set; }
+
+    private void Prev()
+    {
+        _innerDate = _innerDate.AddMonths(-1);
+   
+    }
+
+    private void Next()
+    {
+        _innerDate = _innerDate.AddMonths(1);
+       
+    }
+
+    private async Task DateSelected(DateTime item)
+    {
+        _innerDate = item;
+        await DateChanged.InvokeAsync(item);
+    }
+
+
+}
