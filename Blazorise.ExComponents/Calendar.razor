@@ -51,12 +51,17 @@
     private DateTime _selectedDate=DateTime.MinValue;
     private DateTime _date = DateTime.Now;
     private readonly DateItemConfig _defaultDateItemConfig = new(Border.Is0,Padding.Is2, TextColor.Default, "#eee");
-    
+
     [Parameter]
     public DateTime Date
     {
         get => _date;
-        set => _date = value;
+        set
+        {
+            _date = value;
+            _selectedDate = value;
+        }
+
     }
 
     [Parameter]
@@ -95,7 +100,7 @@
 
     private DateItemConfig GetItemConfig(DateTime date)
     {
-        if (date == _selectedDate && RenderSelected)
+        if (date.Date == _selectedDate.Date && RenderSelected)
         {
             return _defaultDateItemConfig with{TextColor = TextColor.White,BackgroundColor = "#bc901a"};
         }
