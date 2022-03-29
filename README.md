@@ -27,7 +27,7 @@ Or via the .NET Core command line interface:
 dotnet add package Arax.Blazorise.Extra
 ```
 
-Usings
+### Usings
 
 In your main `_Imports.razor` add:
 
