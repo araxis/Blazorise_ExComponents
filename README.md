@@ -31,7 +31,7 @@ Usings
 
 In your main `_Imports.razor` add:
 
-```
+```c#
 @using Blazorise.ExComponents
 ```
 
