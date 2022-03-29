@@ -1,8 +1,69 @@
-﻿<h3>Empty</h3>
-<Div>
+﻿<Div Border="Border" Margin="Margin" Flex="Flex" Padding="Padding.Is2"  TextAlignment="TextAlignment.Center">
+    <Div Style="@ImageBoxStyle">
+        @if (ImageTemplate != null)
+        {
+            @ImageTemplate
+        }
+        else if (string.IsNullOrEmpty(ImageSrc) == false)
+        {
 
+            <img alt="@ImageAlt" src="@ImageSrc" style="height:100%" />
+        }
+        else
+        {
+            <EmptyDefaultImage Style="height:100%" />
+        }
+    </Div>
+    <Div>
+        @if (DescriptionTemplate != null)
+        {
+            <p>@DescriptionTemplate</p>
+        }
+        else
+        {
+            <p><Span TextColor="TextColor.Muted" Style="font-size:x-large" >@Description</Span> </p>
+        }
+    </Div>
+
+
+
+
+    <Div>
+        @ChildContent
+    </Div>
 </Div>
 
 @code {
+
+    [Parameter]
+    public RenderFragment ImageTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment DescriptionTemplate { get; set; }
+
+    [Parameter]
+    public string Description { get; set; } = "No Data";
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string ImageSrc { get; set; } = "";
+
+    [Parameter]
+    public IFluentBorder Border { get; set; } = Blazorise.Border.Is0;
+
+    [Parameter]
+    public IFluentSpacing Margin { get; set; } = Blazorise.Margin.Is0;
+
+    [Parameter]
+    public IFluentFlex Flex { get; set; }
+
+    [Parameter]
+    public string ImageAlt { get; set; } = "";
+    [Parameter]
+    public string ImageBoxStyle { get; set; } = "height:160px";
+
+
 
 }
