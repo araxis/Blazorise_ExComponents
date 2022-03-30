@@ -4,9 +4,6 @@
 
 `Arax.Blazorise.Extra` Extends [Blazorise](https://blazorise.com) via [Blazorise](https://blazorise.com).
 
-
-<img  src="https://user-images.githubusercontent.com/1418779/160797622-32f4ca09-0178-4006-8353-eff17dafe908.png" width="100%" height="500">
-
 For more information, visit the [wiki](https://github.com/araxis/Blazorise_ExComponents/wiki).
 
 *   [Calendar](https://github.com/araxis/Blazorise_ExComponents/wiki/Calendar)
@@ -38,3 +35,5 @@ In your main `_Imports.razor` add:
 ```c#
 @using Blazorise.ExComponents
 ```
+
+![](https://user-images.githubusercontent.com/1418779/160797622-32f4ca09-0178-4006-8353-eff17dafe908.png)
