@@ -12,6 +12,7 @@ For more information, visit the [wiki](https://github.com/araxis/Blazorise_ExCom
 *   [Toggle-Icon-Button](https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Icon-Button)
 *   [Toggle-Text-Button](https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Text-Button)
 *   [Empty](https://github.com/araxis/Blazorise_ExComponents/wiki/Empty)
+*   [Tile](https://github.com/araxis/Blazorise_ExComponents/wiki/Tile)
 
 ### Installing Blazorise Extra Components
 
@@ -35,4 +36,4 @@ In your main `_Imports.razor` add:
 @using Blazorise.ExComponents
 ```
 
-![1](https://user-images.githubusercontent.com/1418779/160441090-76577fb6-9fda-4818-af93-f58f3996cea6.png)
+![](https://user-images.githubusercontent.com/1418779/160797622-32f4ca09-0178-4006-8353-eff17dafe908.png)
