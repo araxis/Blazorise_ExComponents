@@ -2,7 +2,7 @@
 
 [![NuGet](https://img.shields.io/nuget/vpre/Arax.Blazorise.Extra.svg)](https://www.nuget.org/packages/Arax.Blazorise.Extra) [![NuGet](https://img.shields.io/nuget/dt/Arax.Blazorise.Extra.svg)](https://www.nuget.org/packages/Arax.Blazorise.Extra)
 
-`Arax.Blazorise.Extra` Extends [Blazorise](https://blazorise.com) via [Blazorise](https://blazorise.com).
+`Arax.Blazorise.Extra` Extends [Blazorise](https://blazorise.com) via [Blazorise](https://blazorise.com).![](https://user-images.githubusercontent.com/1418779/160797622-32f4ca09-0178-4006-8353-eff17dafe908.png)
 
 For more information, visit the [wiki](https://github.com/araxis/Blazorise_ExComponents/wiki).
 
@@ -35,5 +35,3 @@ In your main `_Imports.razor` add:
 ```c#
 @using Blazorise.ExComponents
 ```
-
-![](https://user-images.githubusercontent.com/1418779/160797622-32f4ca09-0178-4006-8353-eff17dafe908.png)
