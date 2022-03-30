@@ -1,0 +1,149 @@
+﻿
+<Card Flex="Flex" Margin="Margin" Background="@Color" Padding="Padding.Is1.FromStart.Is1.FromEnd">
+    <CardHeader Padding="Padding.Is0.FromTop.Is2.FromStart.Is1.FromEnd.Is1.FromBottom" TextAlignment="HeaderTextAlignment" Border="Flat?Border.Is0:null" Background="TitleBackground??Color">
+        <Span TextAlignment="HeaderTextAlignment" TextColor="TitleTextColor" Style="font-size: 18px">@Title</Span>
+    </CardHeader>
+    <CardBody Padding="Padding.Is0.FromTop.Is2.FromStart.Is2.FromEnd.Is1.FromBottom" Background="ValueBackground??Color">
+
+
+        <Div Flex="@ContentFlex" >
+            @if (ChildContent is not null)
+            {
+                <Div Style="Height:100%">
+                    @ChildContent
+                </Div>
+               
+            }
+            else
+            {
+
+
+                @if (PrefixContent != null || Prefix != null)
+                {
+                    <Span>
+                        @if (PrefixContent != null)
+                        {
+                            @PrefixContent
+                        }
+                        else
+                        {
+                            <Span TextColor="PrefixTextColor" Style="font-size: 26px">
+                                @Prefix
+                            </Span>
+                        }
+
+
+                    </Span>
+                }
+
+                <Div Margin="Blazorise.Margin.Is2.FromStart.Is2.FromEnd" TextAlignment="TextAlignment.Center">
+
+                    <Span TextColor="ValueTextColor" Style="font-size: 26px" >
+                        @Value
+                    </Span>
+
+                </Div>
+                @if (SuffixContent != null || Suffix != null)
+                {
+                    <Span>
+                        @if (SuffixContent != null)
+                        {
+                            @SuffixContent
+                        }
+                        else
+                        {
+                            <Span TextColor="SuffixTextColor" Style="font-size: 26px">
+                                @Suffix
+                            </Span>
+                        }
+
+
+                    </Span>
+                }
+
+            }
+        </Div>
+    </CardBody>
+</Card>
+
+
+@code {
+
+    [Parameter]
+    public IFluentFlex Flex { get; set; } = Blazorise.Flex.Grow.Is1;
+
+    [Parameter]
+    public IFluentSpacing Margin { get; set; } = Blazorise.Margin.Is1;
+
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string Value { get; set; } = "";
+
+    [Parameter]
+    public Background? TitleBackground { get; set; } = null;
+
+    [Parameter]
+    public Background? ValueBackground { get; set; } = null;
+
+    [Parameter]
+    public Background Color { get; set; } = Background.Default;
+
+    [Parameter]
+    public bool Flat { get; set; } = true;
+
+
+    [Parameter]
+    public TextColor TitleTextColor { get; set; } = TextColor.Default;
+
+    [Parameter]
+    public TextColor ValueTextColor { get; set; } = TextColor.Dark;
+
+
+    private TextAlignment HeaderTextAlignment => Alignment switch
+    {
+
+        TileAlignment.Start => TextAlignment.Start,
+        TileAlignment.Center => TextAlignment.Center,
+        TileAlignment.End => TextAlignment.End,
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+
+    [Parameter]
+    public string? Prefix { get; set; }
+
+    [Parameter]
+    public RenderFragment? PrefixContent { get; set; }
+
+    [Parameter]
+    public TextColor PrefixTextColor { get; set; } = TextColor.Dark;
+
+    [Parameter]
+    public TileAlignment Alignment { get; set; } = TileAlignment.Center;
+
+    [Parameter]
+    public string? Suffix { get; set; }
+
+    [Parameter]
+    public RenderFragment? SuffixContent { get; set; }
+
+    [Parameter]
+    public TextColor SuffixTextColor { get; set; } = TextColor.Dark;
+
+    private IFluentFlex ContentFlex => Alignment switch
+    {
+        TileAlignment.Center => Blazorise.Flex.JustifyContent.Center.AlignItems.Center.NoWrap,
+        TileAlignment.Start => Blazorise.Flex.JustifyContent.Start.AlignItems.Center.NoWrap,
+        _ => Blazorise.Flex.JustifyContent.End.AlignItems.Center.NoWrap
+    };
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+
+
+
+
+}
