@@ -6,7 +6,7 @@
 
 For more information, visit the [wiki](https://github.com/araxis/Blazorise_ExComponents/wiki).
 
-Included componets
+Contains the following components
 
 *   [Calendar](https://github.com/araxis/Blazorise_ExComponents/wiki/Calendar)
 *   [ExCollapse](https://github.com/araxis/Blazorise_ExComponents/wiki/ExCollapse)
