@@ -1,0 +1,152 @@
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime _jsRuntime
+
+<Div @ref="_parentRef" Display="Display" Position="Position.Relative" Width="Width" Margin="Margin">
+
+    <Image Source="@ImgSrc" Width="BWidth.Is100" Height="Height"
+           onerror=@($"this.onerror=null;this.src='{FallbackSrc}';") />
+
+
+
+    @if (ChildContent != null)
+    {
+        <div @ref="@_content_ref" style="@style">
+            <Div Padding="ContentPadding"
+             Style=@($"opacity:{ContentOpacity}") Background="ContentBackground">
+                @ChildContent
+            </Div>
+        </div>
+    }
+    else
+    {
+
+        <div @ref="@_content_ref" style="@style">
+            <Div Padding="ContentPadding"
+             TextAlignment="TextAlignment.Center"
+             Style=@($"opacity:{ContentOpacity}")
+             Background="ContentBackground">
+                <Heading Margin="BMargin.Is0" TextColor="TextColor" Size="TextSize">
+                    @Text
+                </Heading>
+            </Div>
+
+
+        </div>
+
+    }
+
+
+
+</Div>
+
+
+@code {
+
+    Div _parentRef;
+    ElementReference _content_ref;
+    MeasureValue _centerTop, _centerLeft;
+    string style => ContentPosition switch
+    {
+        ContentPosition.TopLeft => $"position: absolute;top: {Top};left: {Left};",
+        ContentPosition.TopCenter => $"position: absolute;top: {Top};left:{_centerLeft};",
+        ContentPosition.TopRight => $"position: absolute;top: {Top}; right: {Right};",
+        ContentPosition.BottomLeft => $"position: absolute;bottom: {Bottom};left: {Left};",
+        ContentPosition.BottomRight => $"position: absolute;bottom: {Bottom};right: {Right};",
+        ContentPosition.BottomCenter => $"position: absolute;bottom: {Bottom};left: {_centerLeft}; ",
+        ContentPosition.LeftCenter => $"position: absolute;top:{_centerTop};left: {Left};",
+        ContentPosition.RightCenter => $"position: absolute;top: {_centerTop};right: {Right};",
+        ContentPosition.Center => $"position: absolute;top: {_centerTop};left: {_centerLeft};",
+        ContentPosition.Bottom => $"position: absolute;bottom:{Bottom};right:{Right};left:{Left};",
+        ContentPosition.Top => $"position: absolute;top:{Top};right:{Right};left:{Left};",
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+    [Parameter]
+    public string ImgSrc { get; set; }
+
+    [Parameter]
+    public string FallbackSrc { get; set; } = "./_content/Arax.Blazorise.Extra/images/Empty2.png";
+
+    [Parameter]
+    public ContentPosition ContentPosition { get; set; }
+
+
+
+    [Parameter]
+    public string Text { get; set; } = "";
+
+    [Parameter]
+    public TextColor TextColor { get; set; } = TextColor.Default;
+
+    [Parameter]
+    public Background ContentBackground { get; set; } = Background.Default;
+
+    [Parameter]
+    public HeadingSize TextSize { get; set; } = HeadingSize.Is3;
+
+    [Parameter]
+    public double ContentOpacity { get; set; } = 1;
+
+    [Parameter]
+    public IFluentSpacing ContentPadding { get; set; } = Padding.Is3;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+
+    [Parameter]
+    public MeasureValue Top { get; set; } = 0.px();
+
+    [Parameter]
+    public MeasureValue Left { get; set; } = 0.px();
+
+    [Parameter]
+    public MeasureValue Bottom { get; set; } = 0.px();
+
+    [Parameter]
+    public MeasureValue Right { get; set; } = 0.px();
+
+
+    public class WindowDimension
+    {
+        public int Width { get; set; }
+        public int Height { get; set; }
+    }
+
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        
+        var jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import",
+            new object?[] { "./_content/Arax.Blazorise.Extra/js/utilities.js" });
+
+        try
+        {
+            var parentSize = await jsModule.InvokeAsync<WindowDimension>("GetElementSize", _parentRef.ElementRef);
+            var contentSize = await jsModule.InvokeAsync<WindowDimension>("GetElementSize", _content_ref);
+            _centerTop = ((parentSize.Height - contentSize.Height) / 2).px();
+            _centerLeft = ((parentSize.Width - contentSize.Width) / 2).px();
+            StateHasChanged();
+        }
+        catch
+        {
+            // ignored
+        }
+
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    [Parameter]
+    public IFluentSizing Width { get; set; }
+
+    [Parameter]
+    public IFluentSizing Height { get; set; }
+
+    [Parameter]
+    public IFluentDisplay Display { get; set; } = BDisplay.InlineBlock;
+
+    [Parameter]
+    public IFluentSpacing Margin { get; set; } = BMargin.Is0;
+
+}
