@@ -6,6 +6,8 @@
 
 For more information, visit the [wiki](https://github.com/araxis/Blazorise_ExComponents/wiki).
 
+Included componets
+
 *   [Calendar](https://github.com/araxis/Blazorise_ExComponents/wiki/Calendar)
 *   [ExCollapse](https://github.com/araxis/Blazorise_ExComponents/wiki/ExCollapse)
 *   [ExDivider](https://github.com/araxis/Blazorise_ExComponents/wiki/ExDivider)
