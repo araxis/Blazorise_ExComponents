@@ -1,4 +1,4 @@
-﻿namespace Blazorise.ExComponents;
+﻿namespace Blazorise.ExComponents.Utilities;
 
 public enum TileAlignment
 {
