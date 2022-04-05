@@ -1,6 +1,6 @@
-﻿<Button  Clicked="ToggleState"  Outline="Outline" Color="ButtonColor">
+﻿<Button Class="@BtnClass"  Clicked="ToggleState"  Size="Size" Outline="Outline"  Color="ButtonColor">
 
-    @if (Value)
+    @if (Toggled)
     {
         <Icon TextColor="ToggledColor" Name="@ToggledIcon"></Icon>
     }
@@ -10,11 +10,20 @@
     }
 
 </Button>
+<style>
 
+
+    @($".{_noFocusClassName}"):focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+</style>
 @code {
+    readonly string _noFocusClassName=$"a{Guid.NewGuid():N}" ;
+    string BtnClass=>Focusable?"":_noFocusClassName ;
 
     [Parameter]
-    public bool Value { get; set; }
+    public bool Toggled { get; set; }
 
     [Parameter]
     public IconName Icon { get; set; } = IconName.Add;
@@ -29,20 +38,26 @@
     public TextColor Color { get; set; } = TextColor.Default;
 
     [Parameter]
-    public bool Outline { get; set; } = true;
+    public bool Outline { get; set; } = false;
+
+    [Parameter]
+    public bool Focusable { get; set; } = true;
 
     [Parameter]
     public Color ButtonColor { get; set; } = Blazorise.Color.Link;
 
+    [Parameter]
+    public Size Size { get; set; }
+
 
     [Parameter]
-    public EventCallback<bool> ValueChanged { get; set; }
+    public EventCallback<bool> ToggledChanged { get; set; }
 
 
     private async Task ToggleState()
     {
-        Value = !Value;
-        await ValueChanged.InvokeAsync(Value);
+        Toggled = !Toggled;
+        await ToggledChanged.InvokeAsync(Toggled);
 
     }
 
