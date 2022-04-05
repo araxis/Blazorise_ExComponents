@@ -1,9 +1,18 @@
 ﻿
-<Card Flex="Flex" Margin="Margin" Background="@Color" Padding="Padding.Is1.FromStart.Is1.FromEnd">
-    <CardHeader Padding="Padding.Is0.FromTop.Is2.FromStart.Is1.FromEnd.Is1.FromBottom" TextAlignment="HeaderTextAlignment" Border="Flat?Border.Is0:null" Background="TitleBackground??Color">
-        <Span TextAlignment="HeaderTextAlignment" TextColor="TitleTextColor" Style="font-size: 18px">@Title</Span>
+<Card Flex="Flex"
+      Display="Display"
+      Margin="Margin"
+      Background="@Background"
+      Width="Width"
+      Height="Height"
+      Padding="Padding.Is0">
+    <CardHeader
+                TextAlignment="HeaderTextAlignment"
+                Border="Flat?Border.Is0:null"
+                Background="TitleBackground??Background">
+        <Span  TextAlignment="HeaderTextAlignment" TextColor="TitleTextColor" Style="font-size: 18px">@Title</Span>
     </CardHeader>
-    <CardBody Padding="Padding.Is0.FromTop.Is2.FromStart.Is2.FromEnd.Is1.FromBottom" Background="ValueBackground??Color">
+    <CardBody Padding="Padding.Is0.FromTop.Is2.FromStart.Is2.FromEnd.Is1.FromBottom" Background="ValueBackground??Background">
 
 
         <Div Flex="@ContentFlex" >
@@ -70,7 +79,7 @@
 @code {
 
     [Parameter]
-    public IFluentFlex Flex { get; set; } = Blazorise.Flex.Grow.Is1;
+    public IFluentFlex Flex { get; set; }
 
     [Parameter]
     public IFluentSpacing Margin { get; set; } = Blazorise.Margin.Is1;
@@ -82,13 +91,15 @@
     public string Value { get; set; } = "";
 
     [Parameter]
-    public Background? TitleBackground { get; set; } = null;
+    public Background? TitleBackground { get; set; }
 
     [Parameter]
-    public Background? ValueBackground { get; set; } = null;
+    public Background? ValueBackground { get; set; }
+
+    Background Background => Color == Color.Default ? Background.White : Color.ToBackground();
 
     [Parameter]
-    public Background Color { get; set; } = Background.Default;
+    public Color Color { get; set; } = Color.Default;
 
     [Parameter]
     public bool Flat { get; set; } = true;
@@ -142,8 +153,12 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    [Parameter]
+    public IFluentDisplay Display { get; set; } = BDisplay.InlineBlock;
 
-
-
+    [Parameter]
+    public IFluentSizing Width { get; set; }
+    [Parameter]
+    public IFluentSizing Height { get; set; }
 
 }
