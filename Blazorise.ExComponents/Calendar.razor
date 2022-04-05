@@ -93,13 +93,25 @@
         }
     }
 
+    [Obsolete("use ConfigItem")]
     [Parameter]
     public Func<DateTime,DateItemConfig, DateItemConfig>? GetItemConfigMethod { get; set; } = null;
 
-
+    [Parameter]
+    public Func<DateTime,DateItemConfig, DateItemConfig>? ConfigItem { get; set; } = null;
 
     private DateItemConfig GetItemConfig(DateTime date)
     {
+        if (ConfigItem is not null)
+        {
+            return ConfigItem(date,_defaultDateItemConfig);
+        }
+
+        if (GetItemConfigMethod is not null)
+        {
+            return GetItemConfigMethod(date,_defaultDateItemConfig);
+        }
+
         if (date.Date == _selectedDate.Date && RenderSelected)
         {
             return _defaultDateItemConfig with{TextColor = TextColor.White,BackgroundColor = "#bc901a"};
@@ -108,9 +120,7 @@
         {
             return _defaultDateItemConfig with{TextColor = TextColor.White,BackgroundColor = "#1abc9c"};
         }
-
-        return GetItemConfigMethod is not null ?
-            GetItemConfigMethod(date,_defaultDateItemConfig) : _defaultDateItemConfig;
+         return  _defaultDateItemConfig;
     }
 
 
@@ -134,6 +144,7 @@
         _selectedDate = item;
         await DateChanged.InvokeAsync(item);
     }
+
 
 
 }
