@@ -17,14 +17,18 @@ Includes ExDivider,ExCollapse,Calendar,Tile,Empty,ToggleIconButton, etc.</Descri
     <PackageProjectUrl>https://github.com/araxis/Blazorise_ExComponents</PackageProjectUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="ContactChip.razor.css" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazorise" Version="1.0.1" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.0.1" />
+    <PackageReference Include="Blazorise" Version="1.0.2" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.3" />
   </ItemGroup>
 
@@ -36,7 +40,11 @@ Includes ExDivider,ExCollapse,Calendar,Tile,Empty,ToggleIconButton, etc.</Descri
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <UpToDateCheckInput Remove="DefaultAvatar.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="DefaultAvatar.razor" />
   </ItemGroup>
 
 </Project>
