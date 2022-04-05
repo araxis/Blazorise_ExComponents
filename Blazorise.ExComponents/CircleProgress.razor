@@ -1,0 +1,149 @@
+﻿
+<Div Position="Position.Relative"
+     Display="Display.InlineBlock"
+     Margin="Margin" TextAlignment="TextAlignment.Center"
+     Padding="Padding.Is0"
+     Border="Border.RoundedCircle"
+     Style=@($"height:{RealSize};width:{RealSize};background-color: #e9ecef;")>
+
+
+
+    @if (Value > 50)
+    {
+        <Div Background="@RingColor"
+         Border="Border.RoundedCircle"
+         Position="Position.Absolute"
+         Width="Width.Is100"
+         Height="Height.Is100"
+         style=@($"clip:rect(0,{RealSize},{RealSize},{RealSize/2})")>
+        </Div>
+    }
+
+
+    <Div Background="@RingColor"
+         Position="Position.Absolute"
+         Border="Border.RoundedCircle"
+         Width="Width.Is100"
+         Height="Height.Is100"
+         Style=@($@"transform: rotate({Degree}deg);
+         clip:rect(0,{RealSize/2},{RealSize},0)")>
+    </Div>
+    @if (Value < 50)
+    {
+        <Div Border="Border.RoundedCircle"
+         Position="Position.Absolute"
+         Width="Width.Is100"
+         Height="Height.Is100"
+         style=@($@"background-color: #e9ecef;
+         clip:rect(0,{RealSize/2},{RealSize},0)")>
+        </Div>
+    }
+
+
+    <Div Background="ValueBackground"
+         Position="Position.Absolute"
+         Border="Border.RoundedCircle"
+         Style="width:90%;height:90%;top:50%;left:50%;transform: translate(-50%, -50%);">
+        <Span Style="@_centerContentStyle" Position="Position.Absolute">
+            @if (ValueContent != null)
+            {
+                @ValueContent(Value)
+            }
+            else
+            {
+                <Span Style="@TextFontSizeStyle" TextOverflow="TextOverflow.NoWrap" Position="Position.Absolute" TextColor="@(ValueColor??Color.ToTextColor())">
+                    @if (ValueTransform != null)
+                    {
+                        @ValueTransform.Invoke(Value)
+                    }
+                    else
+                    {
+                        @Value
+                    }
+
+                </Span>
+            }
+
+
+
+        </Span>
+
+    </Div>
+</Div>
+
+
+@code {
+
+
+
+    [Parameter]
+    public double Value { get; set; }
+
+    [Parameter]
+    public Background ValueBackground { get; set; } = Background.White;
+
+    [Parameter]
+    public TextColor? ValueColor { get; set; }
+
+    [Parameter]
+    public RenderFragment<double>? ValueContent { get; set; }
+
+
+    [Parameter]
+    public Color Color { get; set; } = Color.Default;
+
+    Background RingColor
+    {
+        get
+        {
+            if (Color == Color.Default) return Background.Primary;
+            if (Color == Color.Light) return Background.Primary;
+            if (Color == Color.Link) return Background.Primary;
+            return Color.ToBackground();
+        }
+    }
+    [Parameter]
+    public IFluentSpacing Margin { get; set; } = BMargin.Is1;
+
+
+
+    [Parameter]
+    public Func<double, string>? ValueTransform { get; set; }
+
+
+    [Parameter]
+    public Size Size { get; set; }
+
+    MeasureValue RealSize => Size switch
+    {
+        Size.Default => 5.2.rem(),
+        Size.ExtraSmall => 3.2.rem(),
+        Size.Small => 4.2.rem(),
+        Size.Medium => 5.2.rem(),
+        Size.Large => 6.2.rem(),
+        Size.ExtraLarge => 7.2.rem(),
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+    string _centerContentStyle = "top:50%;left:50%;transform: translate(-50%, -50%)";
+    string TextFontSizeStyle => Size switch
+    {
+        Size.Default => $"{_centerContentStyle};font-size:1rem",
+        Size.ExtraSmall => $"{_centerContentStyle};font-size:0.75rem",
+        Size.Small => $"{_centerContentStyle};font-size:0.875rem",
+        Size.Medium => $"{_centerContentStyle};font-size:1.125rem",
+        Size.Large => $"{_centerContentStyle};font-size:1.25rem",
+        Size.ExtraLarge => $"{_centerContentStyle};font-size:1.5rem",
+        _ => throw new ArgumentOutOfRangeException()
+
+    };
+
+   
+
+
+    string MainClass => Value > 50 ? "progress-circle over50" : "progress-circle";
+
+    double Degree => 360 * Value / 100;
+}
+
+
