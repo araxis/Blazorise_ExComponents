@@ -1,16 +1,46 @@
-﻿<Div Margin="Margin.Is1.FromBottom.Is1.FromTop">
-    <Div 
-         TextAlignment="TitleAlignment"
-         Style=@($"line-height: 0.1em;margin-top:1em;margin-bottom: 1em;border-bottom: 1px solid {LineColor} !important; ")>
-        <Span  TextColor="TitleColor"
-              Background="@(string.IsNullOrWhiteSpace(Title)?Background.Transparent:TitleBackground)"
-              Padding="Padding.Is2.FromStart.Is2.FromEnd.Is1.FromTop.Is1.FromBottom">
-            @Title
-        </Span>
-    </Div>
+﻿
 
+<Div Flex="Flex.JustifyContent.Start.AlignItems.Center" Margin="Margin.Is1">
+    <Div Background="Background" style="height: 1px;width: 1rem"></Div>
+    @if (TitleAlignment != TextAlignment.Start)
+    {
+        <Div Background="Background" style="height: 1px;" Flex="Flex.Grow.Is1"></Div>
+    }
+
+
+    @if (ChildContent != null)
+    {
+        <Div Flex="Flex.Grow.Is0"  Margin="TitleMargin" Border="TitleBorder">
+            @ChildContent
+        </Div>
+    }
+    else if (!string.IsNullOrWhiteSpace(Title))
+    {
+        <Div Flex="Flex.Grow.Is0"  Margin="TitleMargin" Border="TitleBorder">
+            <Heading Italic="Italic" Padding="Padding.Is1.FromTop.Is1.FromBottom.Is2.FromStart.Is2.FromEnd" Size="TitleSize" Background="TitleBackground" TextColor="TitleColor??Color.ToTextColor()">@Title</Heading>
+        </Div>
+
+    }
+
+    
+
+
+    @if (TitleAlignment != TextAlignment.End)
+    {
+        <Div Background="Background" style="height: 1px;" Flex="Flex.Grow.Is1"></Div>
+    }
+    <Div Background="Background" style="height: 1px;width: 1rem"></Div>
 </Div>
+
+
+
+
+
 @code {
+
+
+
+    Background Background => LinesColor ?? Color.ToBackground();
 
     [Parameter]
     public string Title { get; set; } = "";
@@ -19,15 +49,40 @@
     public TextAlignment TitleAlignment { get; set; } = TextAlignment.Center;
 
     [Parameter]
-    public TextColor TitleColor { get; set; } = TextColor.Default;
+    public TextColor? TitleColor { get; set; }
+
+    [Parameter]
+    public Background? LinesColor { get; set; }
 
 
     [Parameter]
-    public Background TitleBackground { get; set; } = Background.White;
+    public Background TitleBackground { get; set; } = Background.Transparent;
 
+    [Obsolete("use color SeparatorColor")]
     [Parameter]
     public string LineColor { get; set; } = "#ccc";
 
-   
+    [Parameter]
+    public Color Color { get; set; } = Color.Secondary;
+
+    [Parameter]
+    public IFluentSpacing TitleMargin { get; set; } = Margin.Is1.FromStart.Is1.FromEnd;
+
+    [Parameter]
+    public IFluentBorder TitleBorder { get; set; } = BBorder.Is0;
+
+
+
+    HeadingSize TitleSize => Size.ToHeadingSize();
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public Size Size { get; set; } = Size.Default;
+
+
+    [Parameter]
+    public bool Italic { get; set; }
 
 }
