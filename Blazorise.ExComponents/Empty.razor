@@ -1,34 +1,36 @@
-﻿<Div Border="Border" Margin="Margin" Flex="Flex" Padding="Padding.Is2"  TextAlignment="TextAlignment.Center">
+﻿<Div Border="Border" Margin="Margin" Display="Display" Flex="Flex" Padding="Padding.Is2" TextAlignment="TextAlignment.Center">
     <Div Style="@ImageBoxStyle">
-        @if (ImageTemplate != null)
+        @if (ImageContent != null)
         {
-            @ImageTemplate
+        
+            @ImageContent
         }
         else if (string.IsNullOrEmpty(ImageSrc) == false)
         {
 
-            <img alt="@ImageAlt" src="@ImageSrc" style="height:100%" />
+            <Image alt="@ImageAlt" Source="@ImageSrc" Width="Width.Auto" Height="Height.Is100" />
         }
         else
         {
             <EmptyDefaultImage Style="height:100%" />
         }
     </Div>
-    <Div>
-        @if (DescriptionTemplate != null)
+    <Div Margin="BMargin.Is2.FromTop">
+        @if (DescriptionContent != null)
         {
-            <p>@DescriptionTemplate</p>
+            <p>@DescriptionContent</p>
         }
         else
         {
-            <p><Span TextColor="TextColor.Muted" Style="font-size:x-large" >@Description</Span> </p>
+            <p><Span TextColor="TextColor.Muted"  TextOverflow="TextOverflow.NoWrap"  Style="@TextFontSizeStyle" >@Description</Span> </p>
+            
         }
     </Div>
 
 
 
 
-    <Div>
+    <Div Margin="BMargin.Is2.FromTop">
         @ChildContent
     </Div>
 </Div>
@@ -36,16 +38,16 @@
 @code {
 
     [Parameter]
-    public RenderFragment ImageTemplate { get; set; }
+    public RenderFragment? ImageContent { get; set; }
 
     [Parameter]
-    public RenderFragment DescriptionTemplate { get; set; }
+    public RenderFragment? DescriptionContent { get; set; }
 
     [Parameter]
     public string Description { get; set; } = "No Data";
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
     public string ImageSrc { get; set; } = "";
@@ -57,13 +59,39 @@
     public IFluentSpacing Margin { get; set; } = Blazorise.Margin.Is0;
 
     [Parameter]
-    public IFluentFlex Flex { get; set; }
+    public IFluentFlex Flex { get; set; } = Blazorise.Flex.Grow.Is1;
 
     [Parameter]
     public string ImageAlt { get; set; } = "";
+
     [Parameter]
-    public string ImageBoxStyle { get; set; } = "height:160px";
+    public Size Size { get; set; }
 
+    string ImageBoxStyle => $"height:{ImageHeight}";
 
+    MeasureValue ImageHeight => Size switch
+    {
+        Size.Default => 10.rem(),
+        Size.ExtraSmall => 8.rem(),
+        Size.Small => 9.rem(),
+        Size.Medium => 11.rem(),
+        Size.Large => 12.rem(),
+        Size.ExtraLarge => 13.rem(),
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+    string TextFontSizeStyle => Size switch{
+        Size.Default => "font-size:1rem",
+        Size.ExtraSmall => "font-size:0.75rem",
+        Size.Small => "font-size:0.875rem",
+        Size.Medium => "font-size:1.125rem",
+        Size.Large => "font-size:1.25rem",
+        Size.ExtraLarge => "font-size:1.5rem",
+        _ => throw new ArgumentOutOfRangeException()
+
+        };
+
+        [Parameter]
+    public IFluentDisplay Display { get; set; }
 
 }
