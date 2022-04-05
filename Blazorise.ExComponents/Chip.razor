@@ -1,0 +1,130 @@
+﻿@if (_visible)
+{
+    <Div Flex="Flex" Margin="Margin" Display="BDisplay.InlineBlock"
+         Border="Bordered?Border.Rounded.Is1:null"  Width="Width" >
+    
+        <Div Flex="BFlex.JustifyContent.Between.AlignItems.Center" Background="BackgroundColor" Border="BBorder.Rounded">
+            <Image Source="@Src" Border="BBorder.RoundedStart" Style="@ImageStyle" />
+
+                <Span  Margin="Blazorise.Margin.Is1.FromStart.Is2.FromEnd"
+                       TextWeight="TextWeight"
+                       TextTransform="TextTransform"
+                       Style="@TextFontSizeStyle"
+                       TextColor="TextColor">@Text</Span>
+                @if (Closable)
+                {
+                    <Button Class="@CloseBtnClass" Size="Size" TextColor="TextColor"  
+                            TextWeight="TextWeight.Bold"
+                            Clicked="Close">
+                        &times;
+                    </Button>
+
+                }
+
+        </Div>
+
+  
+    </Div>
+}
+
+
+<style>
+
+
+    @($".{CloseBtnClass}"):focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+
+</style>
+
+@code {
+    string _id = Guid.NewGuid().ToString("N");
+    string CloseBtnClass=>$"btn-{_id}" ;
+
+    private bool _visible = true;
+
+
+    readonly MeasureValue _extraSmallSize = 2.rem();
+    readonly MeasureValue _smallSize = 2.5.rem();
+    readonly MeasureValue _defaultSize = 3.rem();
+    readonly MeasureValue _mediumSize = 3.5.rem();
+    readonly MeasureValue _largeSize = 4.rem();
+    readonly MeasureValue _extraLargeSize = 4.5.rem();
+
+
+    //  IFluentBorder Border => Circle ? Blazorise.Border.RoundedCircle : Blazorise.Border.Rounded;
+
+    string ImageStyle => Size switch{
+        Size.Default => $"vertical-align: middle;Width:{_defaultSize};height: {_defaultSize}",
+        Size.ExtraSmall => $"vertical-align: middle;Width:{_extraSmallSize};height: {_extraSmallSize}",
+        Size.Small => $"vertical-align: middle;Width:{_smallSize};height: {_smallSize}",
+        Size.Medium => $"vertical-align: middle;Width:{_mediumSize};height: {_mediumSize}",
+        Size.Large => $"vertical-align: middle;Width:{_largeSize};height: {_largeSize}",
+        Size.ExtraLarge => $"vertical-align: middle;Width:{_extraLargeSize};height: {_extraLargeSize}",
+        _ => throw new ArgumentOutOfRangeException()
+
+    };
+
+    string TextFontSizeStyle => Size switch{
+        Size.Default => "font-size:1rem",
+        Size.ExtraSmall => "font-size:0.75rem",
+        Size.Small => "font-size:0.875rem",
+        Size.Medium => "font-size:1.125rem",
+        Size.Large => "font-size:1.25rem",
+        Size.ExtraLarge => "font-size:1.5rem",
+        _ => throw new ArgumentOutOfRangeException()
+
+        };
+
+
+
+
+    [Parameter]
+    public string Src { get; set; }
+
+    Background BackgroundColor =>Color.ToBackground();
+
+    [Parameter]
+    public Color Color { get; set; } = Color.Primary;
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public Size Size { get; set; }
+
+    [Parameter]
+    public bool Bordered { get; set; }
+
+
+    [Parameter]
+    public bool Closable { get; set; } = false;
+
+    [Parameter]
+    public EventCallback OnClosed { get; set; }
+
+    [Parameter]
+    public IFluentFlex Flex { get; set; } 
+
+    [Parameter]
+    public IFluentSpacing Margin { get; set; } = BMargin.Is1;
+
+    [Parameter]
+    public IFluentSizing Width { get; set; } = BWidth.Auto;
+    [Parameter]
+    public TextWeight TextWeight { get; set; }
+    [Parameter]
+    public TextTransform TextTransform { get; set; }
+
+    [Parameter]
+    public TextColor TextColor { get; set; } = TextColor.Default;
+
+    private async Task Close()
+    {
+        _visible = false;
+        await OnClosed.InvokeAsync();
+    }
+
+}
