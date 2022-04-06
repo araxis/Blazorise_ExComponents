@@ -4,7 +4,7 @@
 
 `Arax.Blazorise.Extra` Extends [Blazorise](https://blazorise.com) via [Blazorise](https://blazorise.com).
 
-For more information, visit the [wiki](https://github.com/araxis/Blazorise_ExComponents/wiki).
+For more information, visit the [wiki](https://github.com/araxis/Blazorise_ExComponents/wiki) or [Docs](https://araxis.github.io/Blazorise.ExComponents.Docs).
 
 Contains the following components
 
