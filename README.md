@@ -6,6 +6,8 @@
 
 For more information, visit the [wiki](https://github.com/araxis/Blazorise_ExComponents/wiki).
 
+Contains the following components
+
 *   [Calendar](https://github.com/araxis/Blazorise_ExComponents/wiki/Calendar)
 *   [ExCollapse](https://github.com/araxis/Blazorise_ExComponents/wiki/ExCollapse)
 *   [ExDivider](https://github.com/araxis/Blazorise_ExComponents/wiki/ExDivider)
@@ -13,6 +15,10 @@ For more information, visit the [wiki](https://github.com/araxis/Blazorise_ExCom
 *   [Toggle-Text-Button](https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Text-Button)
 *   [Empty](https://github.com/araxis/Blazorise_ExComponents/wiki/Empty)
 *   [Tile](https://github.com/araxis/Blazorise_ExComponents/wiki/Tile)
+*   [Avatar](https://github.com/araxis/Blazorise_ExComponents/wiki/Avatar)
+*   [Chip](https://github.com/araxis/Blazorise_ExComponents/wiki/Chip)
+*   [Circle Progress](https://github.com/araxis/Blazorise_ExComponents/wiki/Circle-Progress)
+*   [Extra Image](https://github.com/araxis/Blazorise_ExComponents/wiki/Extra-Image)
 
 ### Installing Blazorise Extra Components
 
