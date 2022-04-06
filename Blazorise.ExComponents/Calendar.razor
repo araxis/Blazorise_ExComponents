@@ -1,5 +1,5 @@
 ﻿
-<Card>
+<Card ElementId="@_uniqTag">
 
     <CardHeader Padding="Padding.Is2"
                 Flex="Flex.AlignItems.Center.JustifyContent.Between.NoWrap"
@@ -8,21 +8,21 @@
         <Span @onclick="Prev" Style="cursor: pointer" TextAlignment="TextAlignment.Center" Padding="Padding.Is3">&#10094;</Span>
 
         <Div>
-            <span class="month-name">@Month</span>
+            <span class="month-name" >@Month</span>
             <br>
-            <span class="year">@_date.Year</span>
+            <span class="year" >@_date.Year</span>
         </Div>
         <Span  @onclick="Next" Style="cursor: pointer"  TextAlignment="TextAlignment.Center" Padding="Padding.Is3">&#10095;</Span>
     </CardHeader>
     <CardBody Padding="Padding.Is0">
         <div class="grid-container">
-            <span class="weekdays2">Su</span>
-            <span class="weekdays2">Mo</span>
-            <span class="weekdays2">Tu</span>
-            <span class="weekdays2">We</span>
-            <span class="weekdays2">Th</span>
-            <span class="weekdays2">Fr</span>
-            <span class="weekdays2">Sa</span>
+            <span  class="weekdays2">Su</span>
+            <span  class="weekdays2">Mo</span>
+            <span  class="weekdays2">Tu</span>
+            <span  class="weekdays2">We</span>
+            <span  class="weekdays2">Th</span>
+            <span  class="weekdays2">Fr</span>
+            <span  class="weekdays2">Sa</span>
 
 
             @foreach (var item in GetMonthDates)
@@ -41,13 +41,47 @@
     </CardBody>
 </Card>
 
+<style>
+    @($"#{_uniqTag} .grid-container") {
+        display: grid;
+        text-align: center;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        background: #eee;
+        padding-bottom: 10px;
+        /*    column-gap: 5px;
+    row-gap: 5px;*/
+    }
 
+
+    @($"#{_uniqTag} .weekdays2") {
+        color: #666;
+        text-align: center;
+        background-color: #ddd;
+        text-transform: uppercase;
+        padding: 10px;
+    }
+
+
+      @($"{_uniqTag} .month-name") {
+        color: white;
+        font-size: 20px;
+        /*    text-transform: uppercase;*/
+        letter-spacing: 3px;
+    }
+
+     @($"#{_uniqTag} .year") {
+        color: white;
+        font-size: 20px;
+        /*    text-transform: uppercase;*/
+        letter-spacing: 3px;
+    }
+</style>
 
 
 
 @code {
 
-
+    readonly string _uniqTag=$"a{Guid.NewGuid():N}" ;
     private DateTime _selectedDate=DateTime.MinValue;
     private DateTime _date = DateTime.Now;
     private readonly DateItemConfig _defaultDateItemConfig = new(Border.Is0,Padding.Is2, TextColor.Default, "#eee");

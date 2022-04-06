@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>Arax.Blazorise.Extra</PackageId>
-    <Version>$(VersionPrefix)1.0.4</Version>
+    <Version>$(VersionPrefix)1.0.5</Version>
     <Authors>Meisam alifallahi</Authors>
     <Copyright>Copyright Meisam alifallahi</Copyright>
     <Product>Blazorise Extra Components</Product>
