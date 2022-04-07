@@ -20,6 +20,10 @@ Contains the following components
 *   [Circle Progress](https://github.com/araxis/Blazorise_ExComponents/wiki/Circle-Progress)
 *   [Extra Image](https://github.com/araxis/Blazorise_ExComponents/wiki/Extra-Image)
 
+# **Give it a star** :star:**!**
+
+Loving it? Show your support by giving this project a star!
+
 ### Installing Blazorise Extra Components
 
 You should install [Arax.Blazorise.Extra with NuGet](https://www.nuget.org/packages/Arax.Blazorise.Extra):
@@ -41,9 +45,5 @@ In your main `_Imports.razor` add:
 ```c#
 @using Blazorise.ExComponents
 ```
-
-# **Give it a star** :star:**!**
-
-Loving it? Show your support by giving this project a star!
 
 ![](https://user-images.githubusercontent.com/1418779/160797622-32f4ca09-0178-4006-8353-eff17dafe908.png)
