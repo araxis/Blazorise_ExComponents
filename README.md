@@ -42,4 +42,8 @@ In your main `_Imports.razor` add:
 @using Blazorise.ExComponents
 ```
 
+# **Give it a star** :star:**!**
+
+Loving it? Show your support by giving this project a star!
+
 ![](https://user-images.githubusercontent.com/1418779/160797622-32f4ca09-0178-4006-8353-eff17dafe908.png)
