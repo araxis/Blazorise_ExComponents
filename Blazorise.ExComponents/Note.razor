@@ -1,0 +1,73 @@
+﻿@using System.Data
+
+<Div Position="Position.Relative"
+     Padding="Padding.Is2.FromBottom.Is2.FromTop"
+     Border="ToBorder()"
+     Style="@BorderStyle" Margin="Margin">
+
+
+
+    <Div Background="Color.ToBackground()" Padding="Padding.Is0" Margin="BMargin.Is0" Position="Position.Absolute"
+         Style="top:0;left:0;opacity: .4;"
+         Width="Width.Is100" Height="Height.Is100"></Div>
+
+    <Heading Padding="Padding.Is2.FromStart.Is2.FromEnd" Size="HeadingSize.Is2">@Title</Heading>
+    <Paragraph Padding="Padding.Is2.FromStart.Is2.FromEnd" TextOverflow="TextOverflow.Wrap">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            @Description
+        }
+
+    </Paragraph>
+
+
+</Div>
+
+@code {
+
+    [Parameter]
+    public NoteBorder NoteBorder { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string Description { get; set; } = "";
+
+    [Parameter]
+    public Color Color { get; set; }
+
+    string BorderStyle => NoteBorder switch
+    {
+        NoteBorder.Top => "border-left-width: 0!important;border-right-width: 0!important;border-bottom-width: 0!important;",
+        NoteBorder.End => "border-left-width: 0!important;border-top-width: 0!important;border-bottom-width: 0!important;",
+        NoteBorder.Bottom => "border-left-width: 0!important;border-right-width: 0!important;border-top-width: 0!important;",
+        NoteBorder.Start => "border-top-width: 0!important;border-right-width: 0!important;border-bottom-width: 0!important;",
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+    private IFluentBorderColorWithSide ToBorder()
+    {
+        if (Color == Color.Danger) return Border.Is5.Danger;
+        if (Color == Color.Dark) return Border.Is5.Dark;
+        if (Color == Color.Default) return Border.Is5.Primary;
+        if (Color == Color.Info) return Border.Is5.Info;
+        if (Color == Color.Light) return Border.Is5.Light;
+        if (Color == Color.Link) return Border.Is5.Light;
+        if (Color == Color.Primary) return Border.Is5.Primary;
+        if (Color == Color.Secondary) return Border.Is5.Secondary;
+        if (Color == Color.Success) return Border.Is5.Success;
+        return Color == Color.Warning ? Border.Is5.Warning : Border.Is5.White;
+    }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public IFluentSpacing Margin { get; set; } = BMargin.Is1.FromBottom;
+
+}

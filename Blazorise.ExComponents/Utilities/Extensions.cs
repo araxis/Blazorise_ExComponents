@@ -16,6 +16,8 @@ public static class Extensions
         return color == Color.Warning ? Background.Warning : Background.Default;
     }
 
+ 
+
     public static TextColor ToTextColor(this Color color)
     {
         if (color == Color.Danger) return TextColor.Danger;
