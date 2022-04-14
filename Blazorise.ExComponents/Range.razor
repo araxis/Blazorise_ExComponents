@@ -1,0 +1,24 @@
+﻿@using EitherResult
+@code {
+    
+    [CascadingParameter]
+    internal CircleProgress Parent { get; set; }
+
+    [Parameter]
+    public double From { get; set; }
+
+    [Parameter]
+    public double To { get; set; }
+
+    [Parameter]
+    public Either<string,Color> Color { get; set; } = BColor.Default;
+
+    protected override void OnInitialized()
+    {
+        if (Parent == null)
+            throw new ArgumentNullException(nameof(Parent), "ProgressSegment must exist within a CircleProgress");
+        Parent.AddSegment(this);
+        base.OnInitialized();
+    }
+
+}

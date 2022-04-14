@@ -1,111 +1,82 @@
-﻿
-<Div Position="Position.Relative"
-     Display="Display.InlineBlock"
-     Margin="Margin" TextAlignment="TextAlignment.Center"
-     Padding="Padding.Is0"
-     Border="Border.RoundedCircle"
-     Style=@($"height:{RealSize};width:{RealSize};background-color: #e9ecef;")>
-
-
-
-    @if (Value > 50)
-    {
-        <Div Background="@RingColor"
+﻿@using EitherResult
+<CascadingValue Value="this">
+    @ChildContent
+    <Div Position="Position.Relative"
+         Display="Display.InlineBlock"
+         Margin="Margin" TextAlignment="TextAlignment.Center"
+         Padding="Padding.Is0"
          Border="Border.RoundedCircle"
-         Position="Position.Absolute"
-         Width="Width.Is100"
-         Height="Height.Is100"
-         style=@($"clip:rect(0,{RealSize},{RealSize},{RealSize/2})")>
+         Style=@($"height:{RealSize};width:{RealSize};background-color: {RingBackgroundColor};background-image: conic-gradient({SegmentParts});")>
+
+
+
+        <Div Background="ValueBackground"
+             Position="Position.Absolute"
+             Border="Border.RoundedCircle"
+             Style="width: 90%; height: 90%; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <Span Style="@_centerContentStyle" Position="Position.Absolute">
+                @if (ValueContent != null)
+                {
+                    @ValueContent(Value)
+                }
+                else
+                {
+                    <Span Style="@TextFontSizeStyle" TextOverflow="TextOverflow.NoWrap" Position="Position.Absolute">
+                        @if (ValueTransform != null)
+                        {
+                            @ValueTransform.Invoke(Value)
+                        }
+                        else
+                        {
+                            @Value
+                        }
+
+                    </Span>
+                }
+            </Span>
+
         </Div>
-    }
-
-
-    <Div Background="@RingColor"
-         Position="Position.Absolute"
-         Border="Border.RoundedCircle"
-         Width="Width.Is100"
-         Height="Height.Is100"
-         Style=@($@"transform: rotate({Degree}deg);
-         clip:rect(0,{RealSize/2},{RealSize},0)")>
     </Div>
-    @if (Value < 50)
-    {
-        <Div Border="Border.RoundedCircle"
-         Position="Position.Absolute"
-         Width="Width.Is100"
-         Height="Height.Is100"
-         style=@($@"background-color: #e9ecef;
-         clip:rect(0,{RealSize/2},{RealSize},0)")>
-        </Div>
-    }
-
-
-    <Div Background="ValueBackground"
-         Position="Position.Absolute"
-         Border="Border.RoundedCircle"
-         Style="width:90%;height:90%;top:50%;left:50%;transform: translate(-50%, -50%);">
-        <Span Style="@_centerContentStyle" Position="Position.Absolute">
-            @if (ValueContent != null)
-            {
-                @ValueContent(Value)
-            }
-            else
-            {
-                <Span Style="@TextFontSizeStyle" TextOverflow="TextOverflow.NoWrap" Position="Position.Absolute" TextColor="@(ValueColor??Color.ToTextColor())">
-                    @if (ValueTransform != null)
-                    {
-                        @ValueTransform.Invoke(Value)
-                    }
-                    else
-                    {
-                        @Value
-                    }
-
-                </Span>
-            }
-
-
-
-        </Span>
-
-    </Div>
-</Div>
+</CascadingValue>
 
 
 @code {
 
 
 
+    [CascadingParameter]
+    private Theme? Theme { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
     [Parameter]
     public double Value { get; set; }
+
+    [Parameter]
+    public double MaxValue { get; set; } = 100;
 
     [Parameter]
     public Background ValueBackground { get; set; } = Background.White;
 
     [Parameter]
-    public TextColor? ValueColor { get; set; }
+    public Either<string,TextColor>? ValueColor { get; set; }
+
 
     [Parameter]
     public RenderFragment<double>? ValueContent { get; set; }
 
 
     [Parameter]
-    public Color Color { get; set; } = Color.Default;
+    public Color Color { get; set; } = BColor.Primary;
 
-    Background RingColor
-    {
-        get
-        {
-            if (Color == Color.Default) return Background.Primary;
-            if (Color == Color.Light) return Background.Primary;
-            if (Color == Color.Link) return Background.Primary;
-            return Color.ToBackground();
-        }
-    }
     [Parameter]
     public IFluentSpacing Margin { get; set; } = BMargin.Is1;
 
+    string RingBackgroundColor => RingBackground.ToBackground(Theme);
 
+    [Parameter]
+    public Either<string,Background> RingBackground { get; set; } = "#e9ecef";
 
     [Parameter]
     public Func<double, string>? ValueTransform { get; set; }
@@ -126,24 +97,54 @@
     };
 
     string _centerContentStyle = "top:50%;left:50%;transform: translate(-50%, -50%)";
+    string TextColorStyle => $"color:{ValueColor?.ToTextColor(Theme)??Color.ToTextColor(Theme)}";
     string TextFontSizeStyle => Size switch
     {
-        Size.Default => $"{_centerContentStyle};font-size:1rem",
-        Size.ExtraSmall => $"{_centerContentStyle};font-size:0.75rem",
-        Size.Small => $"{_centerContentStyle};font-size:0.875rem",
-        Size.Medium => $"{_centerContentStyle};font-size:1.125rem",
-        Size.Large => $"{_centerContentStyle};font-size:1.25rem",
-        Size.ExtraLarge => $"{_centerContentStyle};font-size:1.5rem",
+        Size.Default => $"{_centerContentStyle};font-size:1rem;{TextColorStyle}",
+        Size.ExtraSmall => $"{_centerContentStyle};font-size:0.75rem;{TextColorStyle}",
+        Size.Small => $"{_centerContentStyle};font-size:0.875rem;{TextColorStyle}",
+        Size.Medium => $"{_centerContentStyle};font-size:1.125rem;{TextColorStyle}",
+        Size.Large => $"{_centerContentStyle};font-size:1.25rem;{TextColorStyle}",
+        Size.ExtraLarge => $"{_centerContentStyle};font-size:1.5rem;{TextColorStyle}",
         _ => throw new ArgumentOutOfRangeException()
 
     };
 
-   
+
+    List<Range> _ranges = new();
+    
+    internal void AddSegment(Range range)
+    {
+        _ranges.Add(range);
+        StateHasChanged();
+    }
+
+    string SegmentParts
+    {
+        get
+        {
+            if (!_ranges.Any())
+            {
+                var valueSegment = ToCoinSegment(0, Value, Color);
+                var endSegment = ToCoinSegment(Value, 360, RingBackgroundColor);
+                return $"{valueSegment},{endSegment}";
+
+            }
+            var segments = _ranges.Select(ToCoinSegment).ToList();
+            var max = _ranges.MaxBy(s => s.To);
+            segments.Add($"{RingBackgroundColor} {max.To.MapToDegree(MaxValue)}deg,{RingBackgroundColor} 360deg");
+            return string.Join(',', segments);
+        }
+    }
 
 
-    string MainClass => Value > 50 ? "progress-circle over50" : "progress-circle";
 
-    double Degree => 360 * Value / 100;
+ 
+
+    string ToCoinSegment(Range segment) => ToCoinSegment(segment.From, segment.To, segment.Color);
+
+    string ToCoinSegment(double from,double to,Either<string,Color> color) => $@"{color.ToBackgroundColor(Theme)} {from.MapToDegree(MaxValue)}deg,
+                                                    {color.ToBackgroundColor(Theme)} {to.MapToDegree(MaxValue)}deg";
 }
 
 

@@ -27,6 +27,7 @@ Includes ExDivider,ExCollapse,Circle Progress,Calendar,Tile,Empty,ToggleIconButt
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Arax.EitherResult" Version="1.0.0" />
     <PackageReference Include="Blazorise" Version="1.0.2" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.3" />
