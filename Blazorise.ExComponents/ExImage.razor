@@ -1,7 +1,7 @@
 ﻿@using Microsoft.JSInterop
 @inject IJSRuntime _jsRuntime
 
-<Div @ref="_parentRef" Display="Display" Position="Position.Relative" Width="Width" Margin="Margin">
+<Div Display="Display" Position="Position.Relative" Width="Width" Margin="Margin">
 
     <Image Source="@ImgSrc" Width="BWidth.Is100" Height="Height"
            onerror=@($"this.onerror=null;this.src='{FallbackSrc}';") />
@@ -10,7 +10,7 @@
 
     @if (ChildContent != null)
     {
-        <div @ref="@_content_ref" style="@style">
+        <div style="@style">
             <Div Padding="ContentPadding"
              Style=@($"opacity:{ContentOpacity}") Background="ContentBackground">
                 @ChildContent
@@ -20,7 +20,7 @@
     else
     {
 
-        <div @ref="@_content_ref" style="@style">
+        <div  style="@style">
             <Div Padding="ContentPadding"
              TextAlignment="TextAlignment.Center"
              Style=@($"opacity:{ContentOpacity}")
@@ -41,21 +41,19 @@
 
 
 @code {
+   
 
-    Div _parentRef;
-    ElementReference _content_ref;
-    MeasureValue _centerTop, _centerLeft;
     string style => ContentPosition switch
     {
         ContentPosition.TopLeft => $"position: absolute;top: {Top};left: {Left};",
-        ContentPosition.TopCenter => $"position: absolute;top: {Top};left:{_centerLeft};",
+        ContentPosition.TopCenter => $"position: absolute;top: {Top};left:50%;transform: translate(-50%, 0)",
         ContentPosition.TopRight => $"position: absolute;top: {Top}; right: {Right};",
         ContentPosition.BottomLeft => $"position: absolute;bottom: {Bottom};left: {Left};",
         ContentPosition.BottomRight => $"position: absolute;bottom: {Bottom};right: {Right};",
-        ContentPosition.BottomCenter => $"position: absolute;bottom: {Bottom};left: {_centerLeft}; ",
-        ContentPosition.LeftCenter => $"position: absolute;top:{_centerTop};left: {Left};",
-        ContentPosition.RightCenter => $"position: absolute;top: {_centerTop};right: {Right};",
-        ContentPosition.Center => $"position: absolute;top: {_centerTop};left: {_centerLeft};",
+        ContentPosition.BottomCenter => $"position: absolute;bottom: {Bottom};left: 50%;transform: translate(-50%, 0); ",
+        ContentPosition.LeftCenter => $"position: absolute;top:50%;left: {Left};transform: translate(0, -50%)",
+        ContentPosition.RightCenter => $"position: absolute;top: 50%;right: {Right};transform: translate(0, -50%)",
+        ContentPosition.Center => "position: absolute; top:50%;left:50%;transform: translate(-50%, -50%)",
         ContentPosition.Bottom => $"position: absolute;bottom:{Bottom};right:{Right};left:{Left};",
         ContentPosition.Top => $"position: absolute;top:{Top};right:{Right};left:{Left};",
         _ => throw new ArgumentOutOfRangeException()
@@ -113,29 +111,7 @@
         public int Height { get; set; }
     }
 
-    
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        
-        var jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import",
-            new object?[] { "./_content/Arax.Blazorise.Extra/js/utilities.js" });
 
-        try
-        {
-            var parentSize = await jsModule.InvokeAsync<WindowDimension>("GetElementSize", _parentRef.ElementRef);
-            var contentSize = await jsModule.InvokeAsync<WindowDimension>("GetElementSize", _content_ref);
-            _centerTop = ((parentSize.Height - contentSize.Height) / 2).px();
-            _centerLeft = ((parentSize.Width - contentSize.Width) / 2).px();
-            StateHasChanged();
-        }
-        catch
-        {
-            // ignored
-        }
-
-
-        await base.OnAfterRenderAsync(firstRender);
-    }
 
     [Parameter]
     public IFluentSizing Width { get; set; }
