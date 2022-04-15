@@ -1,0 +1,145 @@
+﻿@using EitherResult
+<Div Display="Display.InlineBlock" Margin="Margin">
+    <Div Flex="Flex.JustifyContent.Center.AlignItems.Stretch"
+         Border="OutBorder">
+        @if (!string.IsNullOrWhiteSpace(LogoSrc) || IconName is not null || !string.IsNullOrWhiteSpace(Lable))
+        {
+
+            <Div Border="LabelBorder" Padding="Padding.Is1.FromStart.Is1.FromEnd"
+             Flex="Flex.JustifyContent.Between.AlignItems.Center"
+             Style=@($"background-color:{LabelBackground.ToBackground(Theme)};{FontSize}")>
+
+
+                @if (!string.IsNullOrWhiteSpace(LogoSrc))
+                {
+
+                    <Image Source="@LogoSrc" Style=@($"height: {LogoSize};width:{LogoSize}") />
+                }
+                else if (IconName != null)
+                {
+
+                    <Icon Style=@($"height: {LogoSize};width:{LogoSize}") TextColor="IconColor" Name=@IconName />
+                }
+
+
+
+                @if (!string.IsNullOrWhiteSpace(Lable))
+                {
+                    <Div Flex="Flex.AlignItems.Center.JustifyContent.Center"  Padding="Padding.Is1.FromStart"
+                          Style=@($"background-color:{LabelBackground.ToBackground(Theme)};{FontSize};color:{TextColor.ToTextColor(Theme)}")>
+                         @Lable
+                    </Div>
+
+                    
+
+                }
+            </Div>
+        }
+        @if (!string.IsNullOrWhiteSpace(Message))
+        {
+            <Div Flex="Flex.AlignItems.Center.JustifyContent.Center" Border="MessageBorder"
+             Padding="Padding.Is1.FromStart.Is1.FromEnd"
+             Style=@($"background-color:{MessageBackground.ToBackground(Theme)};{FontSize};color:{TextColor.ToTextColor(Theme)}")>
+                @if (!string.IsNullOrWhiteSpace(Message))
+                {
+
+                     @Message
+
+                }
+            </Div>
+        }
+
+
+    </Div>
+</Div>
+
+
+
+@code {
+
+    [CascadingParameter]
+    Theme? Theme { get; set; }
+
+    [Parameter]
+    public string Lable { get; set; }
+
+    [Parameter]
+    public string Message { get; set; }
+
+    [Parameter]
+    public string? LogoSrc { get; set; }
+
+    [Parameter]
+    public object? IconName { get; set; }
+
+    [Parameter]
+    public TextColor IconColor { get; set; } = Blazorise.TextColor.White;
+
+    [Parameter]
+    public Either<string,TextColor> TextColor { get; set; } =  Blazorise.TextColor.White;
+    
+    [Parameter]
+    public Size Size { get; set; }
+    
+    [Parameter]
+    public bool? IsRounded { get; set; }
+
+    [Parameter]
+    public Either<string, Background> LabelBackground { get; set; } = Background.Secondary;
+
+    [Parameter]
+    public Either<string, Background> MessageBackground { get; set; } = Background.Success;
+
+    [Parameter]
+    public IFluentSpacing Margin { get; set; }
+
+    IFluentSpacing LabelPadding => string.IsNullOrWhiteSpace(LogoSrc) && string.IsNullOrWhiteSpace(LogoSrc) && IconName == null ? Padding.Is0 : Padding.Is1;
+
+    bool isRounded => IsRounded ?? Theme?.IsRounded ?? new Theme().IsRounded;
+
+    IFluentBorder LabelBorder => isRounded ? string.IsNullOrWhiteSpace(Message) ? Border.Rounded : Border.RoundedStart : Border.Is0;
+
+    IFluentBorder MessageBorder => GetMessageBorder();
+
+    IFluentBorder LogoBorder => isRounded ? Border.RoundedStart : Border.Is0;
+
+
+    IFluentBorder GetMessageBorder()
+    {
+        if (string.IsNullOrWhiteSpace(LogoSrc) && IconName == null && string.IsNullOrWhiteSpace(Lable))
+        {
+            return isRounded ? Border.Rounded : Border.Is0;
+        }
+
+        return isRounded ? Border.RoundedEnd : Border.Is0;
+    }
+
+    IFluentBorder OutBorder => isRounded ? Border.Rounded : Border.Is0;
+
+    string FontSize => Size switch
+    {
+
+        Size.Default => "font-size:1rem",
+        Size.ExtraSmall => "font-size:0.75rem",
+        Size.Small => "font-size:0.875rem",
+        Size.Medium => "font-size:1.125rem",
+        Size.Large => "font-size:1.25rem",
+        Size.ExtraLarge => "font-size:1.5rem",
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+    MeasureValue LogoSize => Size switch
+    {
+        Size.Default => 1.rem(),
+        Size.ExtraSmall => .75.rem(),
+        Size.Small => .875.rem(),
+        Size.Medium => 1.125.rem(),
+        Size.Large => 1.25.rem(),
+        Size.ExtraLarge => 1.5.rem(),
+        _ => throw new ArgumentOutOfRangeException()
+    };
+
+
+  
+
+}
