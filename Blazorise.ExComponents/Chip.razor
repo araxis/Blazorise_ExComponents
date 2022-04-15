@@ -1,10 +1,10 @@
 ﻿@if (_visible)
 {
     <Div Flex="Flex" Margin="Margin" Display="BDisplay.InlineBlock"
-         Border="Bordered?Border.Rounded.Is1:null"  Width="Width" >
+         Border="ToContainerBorder()"  Width="Width" >
     
-        <Div Flex="BFlex.JustifyContent.Between.AlignItems.Center" Background="BackgroundColor" Border="BBorder.Rounded">
-            <Image Source="@Src" Border="BBorder.RoundedStart" Style="@ImageStyle" />
+        <Div Flex="BFlex.JustifyContent.Between.AlignItems.Center" Background="BackgroundColor" Border="ToContainerBorder()">
+            <Image Source="@Src" Border="ToImageBorder()" Style="@ImageStyle" />
 
                 <Span  Margin="Blazorise.Margin.Is1.FromStart.Is2.FromEnd"
                        TextWeight="TextWeight"
@@ -53,6 +53,22 @@
     readonly MeasureValue _largeSize = 4.rem();
     readonly MeasureValue _extraLargeSize = 4.5.rem();
 
+    private IFluentBorder? ToImageBorder()
+    {
+        return Bordered && isRounded ? BBorder.RoundedStart : null;
+     
+     
+    }
+
+    private IFluentBorder? ToContainerBorder()
+    {
+ 
+        if (isRounded)
+        {
+            return Bordered ? Border.Rounded.Is1 : Border.Rounded;
+        }
+        return Bordered ? Border.Is1 : null;
+    }
 
     //  IFluentBorder Border => Circle ? Blazorise.Border.RoundedCircle : Blazorise.Border.Rounded;
 
@@ -78,6 +94,14 @@
 
         };
 
+
+        
+    [CascadingParameter]
+    Theme? Theme { get; set; }
+
+    [Parameter]
+    public bool? IsRounded { get; set; }
+    bool isRounded => IsRounded ?? Theme?.IsRounded ?? new Theme().IsRounded;
 
 
 
