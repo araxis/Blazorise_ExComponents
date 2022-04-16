@@ -1,0 +1,99 @@
+﻿<Button Class="@BtnClass" Block="Block" Clicked="ToggleState" Disabled="Disabled"  Size="Size" Outline="Outline"  Color="BtnColor">
+
+    @if (Toggled)
+    {
+        if (ToggledIcon != null)
+        {
+            <Icon TextColor="ToggledIconColor" Name="@ToggledIcon" Margin="Margin.Is1.FromEnd"/>
+        }
+        if (!string.IsNullOrWhiteSpace(ToggledText))
+        {
+            @ToggledText
+        }
+      
+    }
+    else
+    {
+        if (Icon != null)
+        {
+            <Icon TextColor="IconColor" Name="@Icon" Margin="Margin.Is1.FromEnd"/>
+        }
+        if (!string.IsNullOrWhiteSpace(Text))
+        {
+            @Text
+        }
+       
+    }
+
+</Button>
+<style>
+    @($".{_noFocusClassName}"):focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+</style>
+@code {
+    readonly string _noFocusClassName=$"a{Guid.NewGuid():N}" ;
+    string BtnClass=>Focusable?"":_noFocusClassName ;
+
+    Color BtnColor => Toggled ? ToggledColor ?? Color : Color;
+
+    [Parameter]
+    public bool Toggled { get; set; }
+
+    [Parameter]
+    public string Text { get; set; } = "";
+
+    [Parameter]
+    public string ToggledText { get; set; } = "";
+
+    [Parameter]
+    public TextColor ToggledTextColor { get; set; } = TextColor.Default;
+
+    [Parameter]
+    public TextColor TextColor { get; set; } = TextColor.Default;
+
+    [Parameter]
+    public object? Icon { get; set; } = IconName.Add;
+
+    [Parameter]
+    public object? ToggledIcon { get; set; } = IconName.Delete;
+
+    [Parameter]
+    public TextColor ToggledIconColor { get; set; } = TextColor.Default;
+
+    [Parameter]
+    public TextColor IconColor { get; set; } = TextColor.Default;
+
+    [Parameter]
+    public bool Outline { get; set; } = false;
+
+    [Parameter]
+    public bool Focusable { get; set; } = true;
+
+    [Parameter]
+    public bool Block { get; set; } 
+
+    [Parameter]
+    public Color Color { get; set; } = Color.Default;
+
+    [Parameter]
+    public Color? ToggledColor { get; set; } = Color.Default;
+
+    [Parameter]
+    public Size Size { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ToggledChanged { get; set; }
+
+
+    private async Task ToggleState()
+    {
+        Toggled = !Toggled;
+        await ToggledChanged.InvokeAsync(Toggled);
+
+    }
+}
