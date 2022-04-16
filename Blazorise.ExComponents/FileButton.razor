@@ -1,0 +1,157 @@
+﻿@using Blazorise.Utilities
+@implements IDisposable
+<FileEdit ElementId="@_elementId" Changed="Changed" Started="Started" Ended="Ended" Written="Written"
+          Filter="@Filter" hidden />
+<Label for="@_elementId" Class="@ClassNames">
+  @ChildContent
+</Label>
+@code {
+
+    [Inject]
+    IClassProvider ClassProvider { get; set; }
+    [CascadingParameter]
+    public Theme Theme { get; set; }
+
+    ClassBuilder ClassBuilder { get;  set; }
+
+    protected override void OnInitialized()
+    {
+        ClassBuilder = new ClassBuilder( BuildClasses );
+        base.OnInitialized();
+    }
+
+
+  
+
+     void BuildClasses(ClassBuilder builder)
+    {
+         builder.Append( ClassProvider.Button() );
+         builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.Default && !Outline );
+         builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.Default && Outline );
+         builder.Append( ClassProvider.ButtonSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+         builder.Append( ClassProvider.ButtonBlock(), Block );
+         builder.Append( ClassProvider.ButtonActive(), Active );
+         builder.Append( ClassProvider.ButtonDisabled(), Disabled );
+    }
+
+  
+
+    void DirtyClasses()
+    {
+        ClassBuilder?.Dirty();
+    }
+
+    readonly string _elementId = Guid.NewGuid().ToString("N");
+    private Color color;
+    private bool outline;
+    private bool disabled;
+    private bool active;
+    private Size? size;
+    private bool block;
+    protected Size ThemeSize => Size ?? Theme?.ButtonOptions?.Size ?? Blazorise.Size.Default;
+
+    [Parameter]
+    public string Filter { get; set; } = "image/jpeg, image/png";
+
+
+    string ClassNames => ClassBuilder.Class;
+
+    [Parameter]
+    public Size? Size
+    {
+        get => size;
+        set
+        {
+            size = value;
+
+            DirtyClasses();
+        }
+    }
+
+    [Parameter]
+    public Color Color
+    {
+        get => color;
+        set
+        {
+            color = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Makes the button to have the outlines.
+    /// </summary>
+    [Parameter]
+    public bool Outline
+    {
+        get => outline;
+        set
+        {
+            outline = value;
+
+            DirtyClasses();
+        }
+    }
+
+
+    [Parameter]
+    public bool Disabled
+    {
+        get => disabled ;
+        set
+        {
+            disabled = value;
+
+            DirtyClasses();
+        }
+    }
+
+
+    [Parameter]
+    public bool Active
+    {
+        get => active;
+        set
+        {
+            active = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Makes the button to span the full width of a parent.
+    /// </summary>
+    [Parameter]
+    public bool Block
+    {
+        get => block;
+        set
+        {
+            block = value;
+
+            DirtyClasses();
+        }
+    }
+
+
+    [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
+
+    [Parameter] public EventCallback<FileStartedEventArgs> Started { get; set; }
+
+    [Parameter] public EventCallback<FileEndedEventArgs> Ended { get; set; }
+
+    [Parameter] public EventCallback<FileWrittenEventArgs> Written { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+
+    public void Dispose()
+    {
+        ClassBuilder = null;
+    }
+
+}
