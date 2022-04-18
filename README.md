@@ -8,17 +8,7 @@ For more information, visit the [wiki](https://github.com/araxis/Blazorise_ExCom
 
 Contains the following components
 
-*   [Calendar](https://github.com/araxis/Blazorise_ExComponents/wiki/Calendar)
-*   [ExCollapse](https://github.com/araxis/Blazorise_ExComponents/wiki/ExCollapse)
-*   [ExDivider](https://github.com/araxis/Blazorise_ExComponents/wiki/ExDivider)
-*   [Toggle-Icon-Button](https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Icon-Button)
-*   [Toggle-Text-Button](https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Text-Button)
-*   [Empty](https://github.com/araxis/Blazorise_ExComponents/wiki/Empty)
-*   [Tile](https://github.com/araxis/Blazorise_ExComponents/wiki/Tile)
-*   [Avatar](https://github.com/araxis/Blazorise_ExComponents/wiki/Avatar)
-*   [Chip](https://github.com/araxis/Blazorise_ExComponents/wiki/Chip)
-*   [Circle Progress](https://github.com/araxis/Blazorise_ExComponents/wiki/Circle-Progress)
-*   [Extra Image](https://github.com/araxis/Blazorise_ExComponents/wiki/Extra-Image)
+<table><tbody><tr><td><ul><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Calendar">Calendar</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/ExCollapse">ExCollapse</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/ExDivider">ExDivider</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Icon-Button">Toggle-Icon-Button</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Text-Button">Toggle-Text-Button</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Empty">Empty</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Tile">Tile</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Avatar">Avatar</a></li></ul></td><td><ul><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Chip">Chip</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Circle-Progress">Circle Progress</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Extra-Image">Extra Image</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Button">Toggle Button</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Extra-Badge">ExBadge</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Note">Note</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/File-Button">File Button</a></li></ul></td></tr></tbody></table>
 
 # **Give it a star** :star:**!**
 
