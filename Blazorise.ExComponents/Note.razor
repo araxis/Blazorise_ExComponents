@@ -1,32 +1,43 @@
-﻿
+﻿@if (Visible)
+{
 
-<Div Position="Position.Relative"
+    <Card Position="Position.Relative"
      Padding="Padding.Is2.FromBottom.Is2.FromTop"
      Border="ToContainerBorder()"
      Style="@BorderStyle" Margin="Margin">
 
+        <Div Background="Color.ToBackground()" Padding="Padding.Is0" Margin="BMargin.Is0" Position="Position.Absolute"
+             Style="top: 0; left: 0; opacity: .4;" Border="ToContentBorder()"
+             Width="Width.Is100" Height="Height.Is100">
+
+        </Div>
+        <Div Flex="Flex.JustifyContent.Between.AlignItems.Center" >
+            <Heading Padding="Padding.Is2.FromStart.Is2.FromEnd" Size="HeadingSize.Is2">@Title</Heading>
+            @if (CloseButton)
+            {
+                <CloseButton  Style="z-index: 1000" Clicked="Close" Margin="BMargin.Is2.FromEnd" />
+                
+            }
+        </Div>
 
 
-    <Div Background="Color.ToBackground()" Padding="Padding.Is0" Margin="BMargin.Is0" Position="Position.Absolute"
-         Style="top:0;left:0;opacity: .4;"  Border="ToContentBorder()"
-         Width="Width.Is100" Height="Height.Is100"></Div>
+        <Paragraph Padding="Padding.Is2.FromStart.Is2.FromEnd" TextOverflow="TextOverflow.Wrap" Style="z-index: 1000">
+            @if (ChildContent != null)
+            {
+                @ChildContent
+            }
+            else
+            {
+                @Description
+            }
 
-    <Heading Padding="Padding.Is2.FromStart.Is2.FromEnd" Size="HeadingSize.Is2">@Title</Heading>
-    <Paragraph Padding="Padding.Is2.FromStart.Is2.FromEnd" TextOverflow="TextOverflow.Wrap">
-        @if (ChildContent != null)
-        {
-            @ChildContent
-        }
-        else
-        {
-            @Description
-        }
-
-    </Paragraph>
+        </Paragraph>
+        
 
 
-</Div>
 
+    </Card>
+}
 @code {
 
     [CascadingParameter]
@@ -48,13 +59,22 @@
     [Parameter]
     public Color Color { get; set; } = Color.Primary;
 
+    [Parameter]
+    public bool Visible { get; set; } = true;
+
+    [Parameter]
+    public EventCallback<bool> VisibleChanged { get; set; }
+
+    [Parameter]
+    public bool CloseButton { get; set; }
+
     string BorderStyle => NoteBorder switch
     {
-        NoteBorder.Top => "border-left-width: 0!important;border-right-width: 0!important;border-bottom-width: 0!important;",
-        NoteBorder.End => "border-left-width: 0!important;border-top-width: 0!important;border-bottom-width: 0!important;",
-        NoteBorder.Bottom => "border-left-width: 0!important;border-right-width: 0!important;border-top-width: 0!important;",
-        NoteBorder.Start => "border-top-width: 0!important;border-right-width: 0!important;border-bottom-width: 0!important;",
-       _ => throw new ArgumentOutOfRangeException()
+        NoteBorder.Top => "border-left-width: 0!important;border-right-width:0!important;border-bottom-width:0!important;",
+        NoteBorder.End => "border-left-width: 0!important;border-top-width:0!important;border-bottom-width:0!important;",
+        NoteBorder.Bottom => "border-left-width:0!important;border-right-width:0!important;border-top-width:0!important;",
+        NoteBorder.Start => "border-top-width:  0!important;border-right-width:0!important;border-bottom-width:0!important;",
+        _ => throw new ArgumentOutOfRangeException()
     };
 
     private IFluentBorderColorWithSide ToContainerBorder()
@@ -62,7 +82,7 @@
         var border = isRounded ? Border.Rounded.Is5 : Border.Is5;
         if (Color == Color.Danger) return border.Danger;
         if (Color == Color.Dark) return border.Dark;
-        if (Color == Color.Default) return border.Primary;
+        if (Color == Color.Default) return border.White;
         if (Color == Color.Info) return border.Info;
         if (Color == Color.Light) return border.Light;
         if (Color == Color.Link) return border.Light;
@@ -75,8 +95,8 @@
 
     private IFluentBorder ToContentBorder()
     {
-       return isRounded ? Border.RoundedEnd : null;
-     
+        return isRounded ? Border.RoundedEnd : null;
+
     }
 
     [Parameter]
@@ -84,5 +104,13 @@
 
     [Parameter]
     public IFluentSpacing Margin { get; set; } = BMargin.Is1.FromBottom;
+
+    private async Task Close()
+    {
+        Visible = false;
+        await VisibleChanged.InvokeAsync(false);
+    }
+
+
 
 }

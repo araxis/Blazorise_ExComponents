@@ -1,9 +1,11 @@
 ﻿@using Blazorise.Utilities
 @implements IDisposable
-<Div Margin="Margin" Display="Block?Display.Block:Display.Inline"  Padding="padding">
+<Div Margin="Margin" Display="Block?Display.Block:Display.InlineBlock"  Padding="padding">
 
 
-    <FileEdit ElementId="@_elementId" Changed="Changed" Started="Started" Ended="Ended" Written="Written"
+    <FileEdit ElementId="@_elementId" Multiple="Multiple"
+              Changed="Changed" Progressed="Progressed"
+              Started="Started" Ended="Ended" Written="Written"
               Filter="@Filter" hidden />
     <Label for="@_elementId" Class="@ClassNames" Margin="BMargin.Is0">
         @if (loading && LoadingTemplate != null)
@@ -65,7 +67,7 @@
     protected Size ThemeSize => Size ?? Theme?.ButtonOptions?.Size ?? Blazorise.Size.Default;
 
     [Parameter]
-    public string Filter { get; set; } = "image/jpeg, image/png";
+    public string Filter { get; set; } = "*/*";
 
 
     string ClassNames => ClassBuilder.Class;
@@ -165,7 +167,11 @@
     [Parameter]
     public IFluentSpacing Padding { get; set; }
 
+    [Parameter]
+    public IFluentSpacing Margin { get; set; } = BMargin.Is1.FromEnd.Is1.FromBottom;
+
     [Parameter] public ButtonType Type { get; set; } = ButtonType.Button;
+    [Parameter] public bool Multiple { get; set; }
 
     [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
 
@@ -174,6 +180,8 @@
     [Parameter] public EventCallback<FileEndedEventArgs> Ended { get; set; }
 
     [Parameter] public EventCallback<FileWrittenEventArgs> Written { get; set; }
+
+    [Parameter] public EventCallback<FileProgressedEventArgs> Progressed { get; set; }
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
@@ -185,7 +193,7 @@
     {
         ClassBuilder = null;
     }
-    [Parameter]
-    public IFluentSpacing Margin { get; set; }
+
+
 
 }

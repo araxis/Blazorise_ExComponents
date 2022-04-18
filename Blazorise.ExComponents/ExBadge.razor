@@ -18,14 +18,14 @@
                 else if (IconName != null)
                 {
 
-                    <Icon Style=@($"height: {LogoSize};width:{LogoSize}") TextColor="IconColor" Name=@IconName />
+                    <Icon  Style=@($"height: {LogoSize};width:{LogoSize}") TextColor="IconColor" Name=@IconName />
                 }
 
 
 
                 @if (!string.IsNullOrWhiteSpace(Lable))
                 {
-                    <Div Flex="Flex.AlignItems.Center.JustifyContent.Center"  Padding="Padding.Is1.FromStart"
+                    <Div Flex="Flex.AlignItems.Center.JustifyContent.Center"  Padding="Padding.Is1.FromStart.Is1.FromEnd"
                           Style=@($"background-color:{LabelBackground.ToBackground(Theme)};{FontSize};color:{TextColor.ToTextColor(Theme)}")>
                          @Lable
                     </Div>
@@ -91,17 +91,13 @@
     public Either<string, Background> MessageBackground { get; set; } = Background.Success;
 
     [Parameter]
-    public IFluentSpacing Margin { get; set; }
-
-    IFluentSpacing LabelPadding => string.IsNullOrWhiteSpace(LogoSrc) && string.IsNullOrWhiteSpace(LogoSrc) && IconName == null ? Padding.Is0 : Padding.Is1;
+    public IFluentSpacing Margin { get; set; } = BMargin.Is1.FromEnd.Is1.FromBottom;
 
     bool isRounded => IsRounded ?? Theme?.IsRounded ?? new Theme().IsRounded;
 
     IFluentBorder LabelBorder => isRounded ? string.IsNullOrWhiteSpace(Message) ? Border.Rounded : Border.RoundedStart : Border.Is0;
 
     IFluentBorder MessageBorder => GetMessageBorder();
-
-    IFluentBorder LogoBorder => isRounded ? Border.RoundedStart : Border.Is0;
 
 
     IFluentBorder GetMessageBorder()

@@ -1,14 +1,21 @@
-﻿<Button Class="@BtnClass" Block="Block" Clicked="ToggleState" Disabled="Disabled"  Size="Size" Outline="Outline"  Color="BtnColor">
+﻿<Button Class="@BtnClass"
+        Margin="Margin"
+        Block="Block"
+        Clicked="ToggleState" 
+        Disabled="Disabled"
+        Size="Size"
+        Outline="Outline" 
+        Color="BtnColor">
 
     @if (Toggled)
     {
         if (ToggledIcon != null)
         {
-            <Icon TextColor="ToggledIconColor" Name="@ToggledIcon" Margin="Margin.Is1.FromEnd"/>
+            <Icon Padding="Padding.Is1" TextColor="ToggledIconColor" Name="@ToggledIcon"/>
         }
         if (!string.IsNullOrWhiteSpace(ToggledText))
         {
-            @ToggledText
+            <Span TextColor="ToggledTextColor">@ToggledText</Span>
         }
       
     }
@@ -16,11 +23,11 @@
     {
         if (Icon != null)
         {
-            <Icon TextColor="IconColor" Name="@Icon" Margin="Margin.Is1.FromEnd"/>
+            <Icon Padding="Padding.Is1" TextColor="IconColor" Name="@Icon"/>
         }
         if (!string.IsNullOrWhiteSpace(Text))
         {
-            @Text
+           <Span TextColor="TextColor">@Text</Span>
         }
        
     }
@@ -54,10 +61,10 @@
     public TextColor TextColor { get; set; } = TextColor.Default;
 
     [Parameter]
-    public object? Icon { get; set; } = IconName.Add;
+    public object? Icon { get; set; } 
 
     [Parameter]
-    public object? ToggledIcon { get; set; } = IconName.Delete;
+    public object? ToggledIcon { get; set; }
 
     [Parameter]
     public TextColor ToggledIconColor { get; set; } = TextColor.Default;
@@ -78,7 +85,7 @@
     public Color Color { get; set; } = Color.Default;
 
     [Parameter]
-    public Color? ToggledColor { get; set; } = Color.Default;
+    public Color? ToggledColor { get; set; } 
 
     [Parameter]
     public Size Size { get; set; }
@@ -89,6 +96,8 @@
     [Parameter]
     public EventCallback<bool> ToggledChanged { get; set; }
 
+    [Parameter]
+    public IFluentSpacing Margin { get; set; } = BMargin.Is1.FromBottom.Is1.FromEnd;
 
     private async Task ToggleState()
     {
@@ -96,4 +105,7 @@
         await ToggledChanged.InvokeAsync(Toggled);
 
     }
+
+  
+
 }
