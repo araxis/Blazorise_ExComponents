@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>Arax.Blazorise.Extra</PackageId>
-    <Version>$(VersionPrefix)1.0.5</Version>
+    <Version>$(VersionPrefix)1.0.6</Version>
     <Authors>Meisam alifallahi</Authors>
     <Copyright>Copyright Meisam alifallahi</Copyright>
     <Product>Blazorise Extra Components</Product>
@@ -14,7 +14,7 @@ Includes ExDivider,ExCollapse,Circle Progress,Calendar,Tile,Empty,ToggleIconButt
     <PackageIcon>logo.png</PackageIcon>
     <PackageTags>Blazorise;Blazor;arax;</PackageTags>
     <RepositoryUrl>https://github.com/araxis/Blazorise_ExComponents</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/araxis/Blazorise_ExComponents</PackageProjectUrl>
+    <PackageProjectUrl>https://araxis.github.io/Blazorise.ExComponents.Docs</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
