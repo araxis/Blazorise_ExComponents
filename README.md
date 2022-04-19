@@ -10,10 +10,6 @@ Contains the following components
 
 <table><tbody><tr><td><ul><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Calendar">Calendar</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/ExCollapse">ExCollapse</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/ExDivider">ExDivider</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Icon-Button">Toggle-Icon-Button</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Text-Button">Toggle-Text-Button</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Empty">Empty</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Tile">Tile</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Avatar">Avatar</a></li></ul></td><td><ul><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Chip">Chip</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Circle-Progress">Circle Progress</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Extra-Image">Extra Image</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Toggle-Button">Toggle Button</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Extra-Badge">ExBadge</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/Note">Note</a></li><li><a href="https://github.com/araxis/Blazorise_ExComponents/wiki/File-Button">File Button</a></li></ul></td></tr></tbody></table>
 
-# **Give it a star** :star:**!**
-
-Loving it? Show your support by giving this project a star!
-
 ### Installing Blazorise Extra Components
 
 You should install [Arax.Blazorise.Extra with NuGet](https://www.nuget.org/packages/Arax.Blazorise.Extra):
